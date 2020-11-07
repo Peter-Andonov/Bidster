@@ -3,3 +3,9 @@
     flex-direction: row;
     align-items: center;
 }
+
+.list-ver {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

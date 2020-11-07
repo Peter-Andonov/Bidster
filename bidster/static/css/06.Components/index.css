@@ -1,5 +1,6 @@
 @import url("../01.Settings/index.css");
 
+/* Header stuff */
 .header {
     background-color: var(--bg-color-header);
     height: 100px;
@@ -22,4 +23,51 @@
     display: flex;
     height: 100%;
     align-items: center;
+}
+
+/* Search stuff */
+
+.vertical-spacer {
+    margin: 50px 0;
+}
+
+.search-wrapper {
+    background-color: var(--bg-color-default);
+    height: 100px;
+    width: 80%;
+}
+
+.search__icon-container {
+    height: 100%;
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.search__input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+}
+
+.search__submit {
+    height: 100%;
+    width: 200px;
+    border: none;
+    color: var(--bg-color-header);
+    background-color: var(--bg-color-default);
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+    border-left: 2px solid;
+    border-color: var(--bg-color-body);
+}
+
+.search__submit:hover {
+    color: var(--bg-color-default);
+    background-color: var(--bg-color-header);
+    cursor: pointer;
 }
