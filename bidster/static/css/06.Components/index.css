@@ -1,0 +1,25 @@
+@import url("../01.Settings/index.css");
+
+.header {
+    background-color: var(--bg-color-header);
+    height: 100px;
+}
+
+.nav {
+    height: 100%;
+}
+
+.nav__nav_item {
+    height: 100%;
+    padding: 0 10px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.nav__nav_item a{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
