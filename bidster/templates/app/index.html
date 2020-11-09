@@ -3,5 +3,12 @@
 {% block page_content %}
 <div class="list-ver">
     {% include 'partials/search.html' %}
+    <div class="browser__wrapper">
+        <h2 class="browser__title">Browse by categories</h2>
+        <div class="browser__container">
+            {% include 'partials/category_item.html' %}
+            {% include 'partials/category_item.html' %}
+        </div>
+    </div>
 </div>
 {% endblock page_content %}
