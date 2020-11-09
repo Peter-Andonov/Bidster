@@ -3,11 +3,18 @@
 {% block page_content %}
 <div class="list-ver">
     {% include 'partials/search.html' %}
-    <div class="browser__wrapper">
-        <h2 class="browser__title">Browse by categories</h2>
+    <div class="browser__wrapper browser__wrapper--white">
+        <h2 class="mp_title">Browse by categories</h2>
         <div class="browser__container">
             {% include 'partials/category_item.html' %}
             {% include 'partials/category_item.html' %}
+        </div>
+    </div>
+    <div class="browser__wrapper">
+        <h2 class="mp_title">Browse by categories</h2>
+        <div class="browser__container">
+            {% include 'partials/offer_card_ver.html' %}
+            {% include 'partials/offer_card_ver.html' %}
         </div>
     </div>
 </div>
