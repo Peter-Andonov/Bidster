@@ -1,0 +1,10 @@
+:root{
+    --text-font-primary: 'Roboto', sans-serif;
+    --text-color-default: #FFFFFF;
+    --text-color-primary: #000000;
+    --text-color-secondary: #616968;
+    
+    --bg-color-default: #FFFFFF;
+    --bg-color-body: #f3f4f6;
+    --bg-color-header: #003034;
+}

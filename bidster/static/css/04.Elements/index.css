@@ -1,0 +1,25 @@
+@import url("../01.Settings/index.css");
+
+body {
+    background-color: var(--bg-color-body);
+}
+
+a {
+    text-decoration: none;
+    color: var(--text-color-default);
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+}
+
+input {
+    box-sizing: border-box;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+}
+
+button:focus, textarea:focus, input:focus{
+    outline: none;
+}

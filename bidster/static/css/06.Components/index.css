@@ -1,0 +1,171 @@
+@import url("../01.Settings/index.css");
+
+/* Header stuff */
+.header {
+    background-color: var(--bg-color-header);
+    height: 100px;
+}
+
+.nav {
+    height: 100%;
+}
+
+.nav__nav_item {
+    height: 100%;
+    padding: 0 10px;
+}
+
+.spacer {
+    flex: 1;
+}
+
+.nav__nav_item a{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+
+/* Search stuff */
+.vertical-spacer {
+    margin: 50px 0;
+}
+
+.search-wrapper {
+    background-color: var(--bg-color-default);
+    height: 100px;
+    width: 80%;
+}
+
+.search__icon-container {
+    height: 100%;
+    width: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.search__input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+}
+
+.search__submit {
+    height: 100%;
+    width: 200px;
+    border: none;
+    color: var(--bg-color-header);
+    background-color: var(--bg-color-default);
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+    border-left: 2px solid;
+    border-color: var(--bg-color-body);
+}
+
+.highlightable:hover {
+    color: var(--bg-color-default);
+    background-color: var(--bg-color-header);
+    cursor: pointer;
+}
+
+.mp_title {
+    font-family: var(--text-font-primary);
+    font-size: 32px;
+    color: var(--text-color-primary);
+    margin: 50px 0;
+}
+
+/* Category browser stuff */
+.browser__wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.browser__wrapper--white {
+    background-color: var(--bg-color-default);
+}
+
+.browser__container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: top;
+}
+
+/* Category item stuff */
+.category-item__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+    width: 150px;
+}
+
+.category-item__image {
+    height: 100px;
+    border-radius: 50%;
+}
+
+.category-item__title {
+    font-family: var(--text-font-primary);
+    font-size: 24px;
+    color: var(--bg-color-header);
+}
+
+/* Offer card stuff */
+.card__wrapper {
+    width: 400px;
+    height: 500px;
+    margin: 10px;
+    background-color: var(--bg-color-default);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card__image {
+    width: 80%;
+    max-height: 50%;
+}
+
+.card__title {
+    font-family: var(--text-font-primary);
+    font-size: 22px;
+    color: var(--text-color-primary);
+}
+
+.card__icon {
+    margin: 10px;
+}
+
+.card__info_text {
+    margin: 10px;
+    font-family: var(--text-font-primary);
+    font-size: 20px;
+    font-weight: 100;
+    color: var(--text-color-secondary);
+}
+
+.card__price {
+    margin: 10px;
+    font-family: var(--text-font-primary);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-color-primary);
+}
+
+.site_description {
+    margin: 0 100px;
+    font-family: var(--text-font-primary);
+    font-size: 20px;
+    font-weight: 100;
+    color: var(--text-color-primary);
+    line-height: 1.5;
+}

@@ -1,5 +1,34 @@
 {% extends 'base.html' %}
 
 {% block page_content %}
-<div>test</div>
+<div class="list-ver">
+    {% include 'partials/search.html' %}
+    <div class="browser__wrapper browser__wrapper--white">
+        <h2 class="mp_title">Browse by categories</h2>
+        <div class="browser__container">
+            {% include 'partials/category_item.html' %}
+            {% include 'partials/category_item.html' %}
+        </div>
+    </div>
+    <div class="browser__wrapper">
+        <h2 class="mp_title">Browse by categories</h2>
+        <div class="browser__container">
+            {% include 'partials/offer_card_ver.html' %}
+            {% include 'partials/offer_card_ver.html' %}
+        </div>
+    </div>
+    <div class="browser__wrapper browser__wrapper--white">
+        <h2 class="mp_title">Bidster</h2>
+        <div class="site_description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque semper consequat 
+            augue ac ullamcorper. Praesent nec aliquam ipsum. Nunc mi orci, viverra sit amet mi a, 
+            laoreet ornare nisi. Aliquam pulvinar nec odio eu egestas. Nunc pulvinar cursus enim interdum 
+            venenatis. Cras quis ligula egestas, dapibus nisl maximus, ultrices nibh. Mauris quis tortor 
+            lacinia, pharetra nibh vitae, cursus purus. Etiam vel elit tempus, viverra tellus non, 
+            volutpat mauris. Nulla placerat leo vel tristique euismod. Aliquam sed tempor ipsum. 
+            Duis congue, risus in ornare porttitor, felis augue pretium nisl, sit amet ullamcorper 
+            augue magna id tortor
+        </div>
+    </div>
+</div>
 {% endblock page_content %}
