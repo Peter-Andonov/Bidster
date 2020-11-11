@@ -6,6 +6,15 @@ class OfferCategory(models.Model):
     description = models.TextField()
 
 
+class ImageGalery(models.Model):
+    pass
+
+class Image(models.Model):
+    galery_id = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='Media/Public')
+    default = models.BooleanField(default=False)
+
+
 class Offer(models.Model):
 
     UNKNOWN = 'X'
@@ -19,6 +28,7 @@ class Offer(models.Model):
     )
 
     name = models.CharField(max_length=200)
+    image_gallery = models.OneToOneField(ImageGalery, on_delete=models.CASCADE)
     description = models.TextField()
     condition = models.CharField(
         max_length=1,
@@ -31,6 +41,9 @@ class Offer(models.Model):
     published_on = models.DateTimeField()
     expires_in = models.DateTimeField()
     view_counts = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f'${self.pk} ${self.name}'
 
 
 class Bid(models.Model):
