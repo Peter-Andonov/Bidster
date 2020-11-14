@@ -1,18 +1,13 @@
 from django.db import models
+from django.utils.timezone import now
 
 
 class OfferCategory(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
 
-
-class ImageGalery(models.Model):
-    pass
-
-class Image(models.Model):
-    galery_id = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='Media/Public')
-    default = models.BooleanField(default=False)
+    def __str__(self):
+        return self.name
 
 
 class Offer(models.Model):
@@ -28,7 +23,6 @@ class Offer(models.Model):
     )
 
     name = models.CharField(max_length=200)
-    image_gallery = models.OneToOneField(ImageGalery, on_delete=models.CASCADE)
     description = models.TextField()
     condition = models.CharField(
         max_length=1,
@@ -38,12 +32,22 @@ class Offer(models.Model):
     starting_price = models.DecimalField(max_digits=19, decimal_places=2)
     category = models.ForeignKey(OfferCategory, on_delete=models.DO_NOTHING)
     location = models.CharField(max_length=50)
-    published_on = models.DateTimeField()
-    expires_in = models.DateTimeField()
-    view_counts = models.PositiveIntegerField()
+    published_on = models.DateTimeField(default=now, editable=False)
+    expires_on = models.DateTimeField(editable=False)
+    view_counts = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f'${self.pk} ${self.name}'
+        return self.name
+
+
+class ImageGalery(models.Model):
+    offer = models.OneToOneField(Offer, on_delete=models.CASCADE)
+
+
+class Image(models.Model):
+    galery_id = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='media')
+    default = models.BooleanField(default=False)
 
 
 class Bid(models.Model):

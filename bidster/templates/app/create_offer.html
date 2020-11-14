@@ -4,22 +4,7 @@
 <div class="list-ver">
     <form class="list-ver" action="/create-offer/" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ offer_form.name.label_tag }}
-        {{ offer_form.name }}
-        {{ image_form.image.label_tag }}
-        {{ image_form.image }}
-        {{ offer_form.description.label_tag }}
-        {{ offer_form.description }}
-        {{ offer_form.condition.label_tag }}
-        {{ offer_form.condition }}
-        {{ offer_form.starting_price.label_tag }}
-        {{ offer_form.starting_price }}
-        {{ offer_form.category.label_tag }}
-        {{ offer_form.category }}
-        {{ offer_form.location.label_tag }}
-        {{ offer_form.location }}
-        {{ offer_form.expires_in.label_tag }}
-        {{ offer_form.expires_in }}
+        {{ offer_form }}
         <button type='submit'>Create</button>
     </form>
 </div>
