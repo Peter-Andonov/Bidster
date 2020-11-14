@@ -46,7 +46,7 @@ class ImageGalery(models.Model):
 
 class Image(models.Model):
     galery_id = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='media')
+    image = models.ImageField()
     default = models.BooleanField(default=False)
 
 
