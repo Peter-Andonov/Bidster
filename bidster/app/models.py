@@ -1,10 +1,14 @@
+from os.path import join
+
 from django.db import models
 from django.utils.timezone import now
+from django.conf import settings
 
 
 class OfferCategory(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
+    image = models.ImageField(upload_to=join(settings.MEDIA_ROOT, 'categories'))
 
     def __str__(self):
         return self.name
@@ -45,7 +49,7 @@ class ImageGalery(models.Model):
 
 
 class Image(models.Model):
-    galery_id = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
+    galery = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
     image = models.ImageField()
     default = models.BooleanField(default=False)
 

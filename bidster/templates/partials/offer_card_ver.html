@@ -1,26 +1,26 @@
 {% load static %}
 <div class="card__wrapper">
-    <img class="card__image" src="https://frankfurt.apollo.olxcdn.com/v1/files/wdxf0bdzei16-BG/image;s=800x600">
+    <img class="card__image" src="{{offer.imagegalery.image_set.0.image.url }}">
     <h4>
         <a href="/">
-            <strong class="card__title highlightable">Some box with some stuff</strong>
+            <strong class="card__title highlightable">{{ offer.name }}</strong>
         </a>
     </h4>
     <div class="spacer"></div>
     <div class="list-hor">
         <img class="card__icon" height="20px" src="{% static 'icons/location.svg' %}" />
-        <div class="card__info_text">Sofia city</div>
+        <div class="card__info_text">{{ offer.location }}</div>
     </div>
     <div class="list-hor">
         <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
-        <div class="card__info_text">Added - 23.04.2020</div>
+        <div class="card__info_text">Added - {{ offer.published_on}}</div>
     </div>
     <div class="list-hor">
         <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
-        <div class="card__info_text">Expires - 23.04.2020</div>
+        <div class="card__info_text">Expires - {{ offer.expires_on}}</div>
     </div>
     <div class="list-hor">
-        <div class="card__price">400 lv.</div>
+        <div class="card__price">{{ offer.starting_price}} lv.</div>
         <div class="spacer"></div>
         <img class="card__icon" height="30px" src="{% static 'icons/heart.svg' %}" />
     </div>

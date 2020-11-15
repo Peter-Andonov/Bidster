@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="{% static 'css/04.Elements/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/05.Objects/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/06.Components/index.css' %}">
+    {% block page_css %}{% endblock page_css %}
     <title>Bidster</title>
 </head>
 <body>
     {% include 'partials/header.html' %}
     {% block page_content %}{% endblock page_content %}
 </body>
+    {% block javascript %}{% endblock javascript%}
 </html>

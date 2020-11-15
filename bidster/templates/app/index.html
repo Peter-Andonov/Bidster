@@ -6,15 +6,17 @@
     <div class="browser__wrapper browser__wrapper--white">
         <h2 class="mp_title">Browse by categories</h2>
         <div class="browser__container">
-            {% include 'partials/category_item.html' %}
-            {% include 'partials/category_item.html' %}
+            {% for category in categories %}
+                {% include 'partials/category_item.html' with category=category %}
+            {% endfor %}
         </div>
     </div>
     <div class="browser__wrapper">
-        <h2 class="mp_title">Browse by categories</h2>
+        <h2 class="mp_title">Latest offers</h2>
         <div class="browser__container">
-            {% include 'partials/offer_card_ver.html' %}
-            {% include 'partials/offer_card_ver.html' %}
+            {% for offer in last_five_offers %}
+                {% include 'partials/offer_card_ver.html' with offer=offer %}
+            {% endfor %}
         </div>
     </div>
     <div class="browser__wrapper browser__wrapper--white">
