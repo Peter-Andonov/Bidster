@@ -1,10 +1,11 @@
 from datetime import timedelta
 
+from django.db.models import Prefetch
 from django.shortcuts import render, redirect
 from django.utils.timezone import now
 
 from app.forms import OfferForm
-from app.models import ImageGalery, Offer, OfferCategory
+from app.models import ImageGalery, Offer, OfferCategory, Image
 from app.utils.file_upload import save_to_galery
 
 # Create your views here.
@@ -12,12 +13,10 @@ from app.utils.file_upload import save_to_galery
 
 def index_page(req):
     if req.method == 'GET':
-        for entry in Offer.objects.prefetch_related('imagegalery').all().order_by('-id')[:5]:
-            test = entry.imagegalery
         context = {
             'offers_count': Offer.objects.count(),
             'categories': OfferCategory.objects.all(),
-            'last_five_offers': Offer.objects.prefetch_related('images').all().order_by('-id')[:5],
+            'last_five_offers': Offer.objects.all().prefetch_related(Prefetch('imagegalery__image_set', queryset=Image.objects.all(), to_attr='images')),
         }
         return render(req, 'app/index.html', context)
 

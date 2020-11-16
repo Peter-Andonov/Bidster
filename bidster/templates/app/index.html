@@ -2,7 +2,7 @@
 
 {% block page_content %}
 <div class="list-ver">
-    {% include 'partials/search.html' %}
+    {% include 'partials/search.html' with offers_count=offers_count %}
     <div class="browser__wrapper browser__wrapper--white">
         <h2 class="mp_title">Browse by categories</h2>
         <div class="browser__container">
