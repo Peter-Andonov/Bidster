@@ -1,0 +1,30 @@
+<form class="list-ver" action="/create-offer/" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class='form__section'>
+        <label class="form__label" for="{{ offer_form.name.auto_id }}">{{ offer_form.name.label }}</label>
+        {{ offer_form.name }}
+        <label class="form__label" for="{{ offer_form.category.auto_id }}">{{ offer_form.category.label }}</label>
+        {{ offer_form.category }}
+        <label class="form__label" for="{{ offer_form.condition.auto_id }}">{{ offer_form.condition.label }}</label>
+        {{ offer_form.condition }}
+        <label class="form__label" for="{{ offer_form.active_for.auto_id }}">{{ offer_form.active_for.label }}</label>
+        {{ offer_form.active_for }}
+        <label class="form__label" for="{{ offer_form.starting_price.auto_id }}">{{ offer_form.starting_price.label }}</label>
+        {{ offer_form.starting_price }}
+    </div>
+    <div class='form__section'>
+        <label class="form__label" for="{{ offer_form.description.auto_id }}">{{ offer_form.description.label }}</label>
+        {{ offer_form.description }}
+    </div>
+    <div class='form__section'>
+        <label class="form__label">{{ offer_form.images.label }}</label>
+        <div class='form__previews_container'></div>
+        {{ offer_form.images }}
+        <label class="form__label" id='add_images' for="{{ offer_form.images.auto_id }}">+ Add Images</label>
+    </div>
+    <div class='form__section'>
+        <label class="form__label" for="{{ offer_form.location.auto_id }}">{{ offer_form.location.label }}</label>
+        {{ offer_form.location }}
+    </div>
+    <button class='form__submit highlightable' type='submit'>Create</button>
+</form>

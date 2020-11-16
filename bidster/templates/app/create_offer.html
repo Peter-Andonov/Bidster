@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/06.Components/create-offer.css' %}">
+{% endblock page_css %}
+
+{% block page_content %}
+<div class="list-ver">
+    {% include 'partials/offer_form.html' %}
+</div>
+{% endblock page_content %}
+
+{% block javascript %}
+<script type="module" src="{% static 'js/image_preview.js' %}"></script>
+{% endblock javascript %}

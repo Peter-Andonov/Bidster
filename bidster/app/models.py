@@ -1,9 +1,17 @@
+from os.path import join
+
 from django.db import models
+from django.utils.timezone import now
+from django.conf import settings
 
 
 class OfferCategory(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
+    image = models.ImageField(upload_to=join(settings.MEDIA_ROOT, 'categories'))
+
+    def __str__(self):
+        return self.name
 
 
 class Offer(models.Model):
@@ -28,9 +36,22 @@ class Offer(models.Model):
     starting_price = models.DecimalField(max_digits=19, decimal_places=2)
     category = models.ForeignKey(OfferCategory, on_delete=models.DO_NOTHING)
     location = models.CharField(max_length=50)
-    published_on = models.DateTimeField()
-    expires_in = models.DateTimeField()
-    view_counts = models.PositiveIntegerField()
+    published_on = models.DateTimeField(default=now, editable=False)
+    expires_on = models.DateTimeField(editable=False)
+    view_counts = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class ImageGalery(models.Model):
+    offer = models.OneToOneField(Offer, on_delete=models.CASCADE)
+
+
+class Image(models.Model):
+    galery = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
+    image = models.ImageField()
+    default = models.BooleanField(default=False)
 
 
 class Bid(models.Model):

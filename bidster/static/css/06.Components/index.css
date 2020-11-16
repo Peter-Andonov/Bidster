@@ -110,7 +110,9 @@
 
 .category-item__image {
     height: 100px;
+    width: 100px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .category-item__title {

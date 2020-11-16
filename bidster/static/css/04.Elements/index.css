@@ -20,6 +20,6 @@ button {
     padding: 0;
 }
 
-button:focus, textarea:focus, input:focus{
+button:focus, textarea:focus, input:focus, select:focus{
     outline: none;
 }
