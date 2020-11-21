@@ -59,6 +59,7 @@ def create_page(req):
             return redirect('index')
 
 
+@login_required
 def my_offers_page(req):
     if req.method == 'GET':
         context = {

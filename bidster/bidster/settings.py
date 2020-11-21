@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from django.urls import reverse_lazy
 from pathlib import Path
 import os
 
@@ -120,6 +121,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LOGIN_URL = reverse_lazy('login user')
 
 
 # Static files (CSS, JavaScript, Images)
