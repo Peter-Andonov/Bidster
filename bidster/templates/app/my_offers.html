@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+<div class="list-ver">
+    {% for offer in my_offers %}
+        {% include 'partials/offer_card_hor.html' with offer=offer %}
+    {% endfor %}
+</div>
+{% endblock page_content %}

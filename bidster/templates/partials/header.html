@@ -1,5 +1,4 @@
 <div class="header">
-
     <nav class="nav">
         <ul class="nav list-hor">
             <li class="nav__nav_item">
@@ -11,6 +10,9 @@
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
                 <a href="{% url 'create page' %}">Create Offer</a>
+            </li>
+            <li class="nav__nav_item">
+                <a href="{% url 'my offers page' %}">My offers</a>
             </li>
             <li class="nav__nav_item">
                 <a href="/bids">My bids</a>

@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.db.models import Prefetch
 from django.shortcuts import render, redirect
 from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
 
 from app.forms import OfferForm
 from app.models import ImageGalery, Offer, OfferCategory, Image
@@ -21,6 +22,7 @@ def index_page(req):
         return render(req, 'app/index.html', context)
 
 
+@login_required
 def create_page(req):
     if req.method == 'GET':
 
@@ -42,6 +44,7 @@ def create_page(req):
                 starting_price=offer_form.cleaned_data['starting_price'],
                 category=offer_form.cleaned_data['category'],
                 location=offer_form.cleaned_data['location'],
+                created_by=req.user,
                 expires_on=now() +
                 timedelta(days=offer_form.cleaned_data['active_for'])
             )
@@ -54,3 +57,11 @@ def create_page(req):
                 save_to_galery(image_gallery, f)
 
             return redirect('index')
+
+
+def my_offers_page(req):
+    if req.method == 'GET':
+        context = {
+            'my_offers': Offer.objects.filter(created_by=req.user.id).prefetch_related(Prefetch('imagegalery__image_set', queryset=Image.objects.all(), to_attr='images')),
+        }
+        return render(req, 'app/my_offers.html', context)
