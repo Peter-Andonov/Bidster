@@ -3,24 +3,35 @@
     <nav class="nav">
         <ul class="nav list-hor">
             <li class="nav__nav_item">
-                <a href="/">Home</a>
+                <a href="{% url 'index' %}">Home</a>
             </li>
             <li class="nav__nav_item">
                 <a href="/offers">Offers</a>
             </li>
+            {% if user.is_authenticated %}
             <li class="nav__nav_item">
-                <a href="/create-offer">Create Offer</a>
+                <a href="{% url 'create page' %}">Create Offer</a>
             </li>
             <li class="nav__nav_item">
                 <a href="/bids">My bids</a>
             </li>
+            {% endif %}
             <li class="nav__nav_item spacer"></li>
+            {% if user.is_authenticated %}
             <li class="nav__nav_item">
-                <a href="/register">Register</a>
+                <a href="{% url 'logout user' %}">{{ user.username }}</a>
             </li>
             <li class="nav__nav_item">
-                <a href="/login">Login</a>
+                <a href="{% url 'logout user' %}">Logout</a>
             </li>
+            {% else %}
+            <li class="nav__nav_item">
+                <a href="{% url 'register user' %}">Register</a>
+            </li>
+            <li class="nav__nav_item">
+                <a href="{% url 'login user' %}">Login</a>
+            </li>
+            {% endif %}
         </ul>
     </nav>
 </div>

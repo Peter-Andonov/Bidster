@@ -171,3 +171,17 @@
     color: var(--text-color-primary);
     line-height: 1.5;
 }
+
+.errors__container {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.errors__text {
+    color: red;
+    font-family: var(--text-font-primary);
+    font-size: 18px;
+    font-weight: 500;
+}

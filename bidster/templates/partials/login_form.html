@@ -1,0 +1,17 @@
+<form class="form__wrapper" action="{% url 'login user' %}" method="POST">
+    {% csrf_token %}
+    <label class="form__label" for="{{ login_form.email.auto_id }}">{{ login_form.email.label }}</label>
+    {{ login_form.email }}
+    <label class="form__label" for="{{ login_form.password1.auto_id }}">{{ login_form.password.label }}</label>
+    {{ login_form.password }}
+    {% if login_form.errors.invalid_credentials %}
+        <ul class="errors__container">
+            {% for error in login_form.errors.invalid_credentials %}
+            <li>
+                <strong class="errors__text" >{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <button class='form__submit' type='submit'>Login</button>
+</form>
