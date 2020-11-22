@@ -7,5 +7,5 @@ urlpatterns = [
     path('', index_page, name='index'),
     path('create-offer/', create_page, name='create page'),
     path('my-offers/', my_offers_page, name='my offers page'),
-    path('offer-details/<int:offer_id>', details_page, name='details page'),
+    path('offer-details/<int:offer_id>/', details_page, name='details page'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

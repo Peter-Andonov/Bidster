@@ -60,3 +60,4 @@ class Bid(models.Model):
     amount = models.DecimalField(max_digits=19, decimal_places=2)
     message = models.CharField(max_length=200)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)

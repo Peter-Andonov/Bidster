@@ -35,3 +35,39 @@
     font-size: 22px;
     color: var(--text-color-primary);
 }
+
+.details__bid_form_label {
+    font-family: var(--text-font-primary);
+    font-size: 28px;
+    color: var(--text-color-primary);
+    margin: 20px 0;
+}
+
+.details__bid_form_input {
+    height: 50px;
+    width: 50%;
+    font-family: var(--text-font-primary);
+    background-color: var(--bg-color-body);
+    border: none;
+    font-size: 26px;
+}
+
+.details__section textarea {
+    height: 300px;
+}
+
+.details__btn {
+    margin: 10px;
+    height: 40px;
+    width: 150px;
+    border: none;
+    color: var(--bg-color-default);
+    background-color: var(--bg-color-header);
+    font-family: var(--text-font-primary);
+    font-size: 24px;
+    border-radius: 5px;
+}
+
+.details__btn:hover {
+    cursor: pointer;
+}

@@ -42,5 +42,23 @@
         <div class="card__info_text">{{ offer.description }}</div>
     </div>
     <div class="details__section">
+        <form class="list-ver" action="{% url 'details page' offer_id=offer.id %}" method="POST">
+            {% csrf_token %}
+            <label class="details__bid_form_label" for="{{ bid_form.amount.auto_id }}">{{ bid_form.amount.label }}</label>
+            {{ bid_form.amount }}
+            {% if bid_form.errors %}
+            <ul class="errors__container">
+                {% for error in bid_form.errors.amount %}
+                <li>
+                    <strong class="errors__text">{{ error }}</strong>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <label class="details__bid_form_label"
+                for="{{ bid_form.message.auto_id }}">{{ bid_form.message.label }}</label>
+            {{ bid_form.message }}
+            <button class="details__btn">Bid</button>
+        </form>
     </div>
 </div>
