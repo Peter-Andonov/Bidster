@@ -106,7 +106,9 @@ def details_page(req, offer_id):
 @login_required
 def my_offers_page(req):
     if req.method == 'GET':
+        my_offers = Offer.objects.filter(created_by=req.user.id).prefetch_related(Prefetch('imagegalery__image_set', queryset=Image.objects.all(
+        ), to_attr='images')).prefetch_related(Prefetch('bid_set', queryset=Bid.objects.all().order_by('-amount'), to_attr='bids'))
         context = {
-            'my_offers': Offer.objects.filter(created_by=req.user.id).prefetch_related(Prefetch('imagegalery__image_set', queryset=Image.objects.all(), to_attr='images')),
+            'my_offers': my_offers,
         }
         return render(req, 'app/my_offers.html', context)
