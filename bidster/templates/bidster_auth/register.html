@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/06.Components/bidster_auth.css' %}">
+{% endblock page_css %}
+
+{% block page_content %}
+<div class="list-ver">
+    {% include 'partials/register_form.html' %}
+</div>
+{% endblock page_content %}

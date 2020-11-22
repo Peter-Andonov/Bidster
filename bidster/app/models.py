@@ -3,6 +3,7 @@ from os.path import join
 from django.db import models
 from django.utils.timezone import now
 from django.conf import settings
+from django.contrib.auth.models import User
 
 
 class OfferCategory(models.Model):
@@ -38,6 +39,7 @@ class Offer(models.Model):
     location = models.CharField(max_length=50)
     published_on = models.DateTimeField(default=now, editable=False)
     expires_on = models.DateTimeField(editable=False)
+    created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     view_counts = models.PositiveIntegerField(default=0)
 
     def __str__(self):

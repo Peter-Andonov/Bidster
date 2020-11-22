@@ -1,0 +1,28 @@
+<form class="form__wrapper" action="{% url 'register user' %}" method="POST">
+    {% csrf_token %}
+    <label class="form__label" for="{{ register_form.email.auto_id }}">{{ register_form.email.label }}</label>
+    {{ register_form.email }}
+    {% if register_form.errors.email %}
+        <ul class="errors__container">
+            {% for error in register_form.errors.email %}
+            <li>
+                <strong class="errors__text" >{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <label class="form__label" for="{{ register_form.password1.auto_id }}">{{ register_form.password1.label }}</label>
+    {{ register_form.password1 }}
+    <label class="form__label" for="{{ register_form.password2auto_id }}">{{ register_form.password2.label }}</label>
+    {{ register_form.password2 }}
+    {% if register_form.errors.password2 %}
+        <ul class="errors__container">
+            {% for error in register_form.errors.password2 %}
+            <li>
+                <strong class="errors__text" >{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <button class='form__submit' type='submit'>Register</button>
+</form>
