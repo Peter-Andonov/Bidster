@@ -15,9 +15,12 @@ class BidForm(forms.ModelForm):
 
     def clean_amount(self):
         offer = Offer.objects.get(pk=self.offer_id)
+        highest_bid = Bid.objects.filter(offer=self.offer_id).order_by('-amount')
         offer_amount = self.cleaned_data.get('amount')
         if offer_amount < offer.starting_price:
             raise ValidationError("Bid amount cannot be less than starting price")
+        if highest_bid and offer_amount <= highest_bid[0].amount:
+            raise ValidationError('Bid amount cannot be less than the current price')
         return offer_amount
 
     class Meta:

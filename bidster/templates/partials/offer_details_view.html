@@ -10,7 +10,11 @@
     </div>
     <div class='details__section'>
         <h2 class="details__section_title">{{ offer.name }}</h2>
-        <strong class="details__section_title">Current price: {{ offer.starting_price }} lv.</strong>
+        {% if highest_bid %}
+            <strong class="details__section_title">Current price: {{ highest_bid }} lv.</strong>
+        {% else %}
+            <strong class="details__section_title">Current price: {{ offer.starting_price }} lv.</strong>
+        {% endif %}
         <div class="list-hor">
             <div class="list-ver">
                 <div class="list-hor">
