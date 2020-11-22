@@ -20,6 +20,8 @@
         <div class="list-hor">
             <img class="card__icon" height="20px" src="{% static 'icons/location.svg' %}" />
             <div class="card__info_text">{{ offer.location }}</div>
+            <div class="spacer"></div>
+            <a href="{% url 'details page' offer_id=offer.id %}" class="card__btn">View Details</a>
         </div>
     </div>
 </div>

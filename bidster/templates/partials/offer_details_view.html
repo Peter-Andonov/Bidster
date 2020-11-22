@@ -1,0 +1,46 @@
+{% load static %}
+<div class="list-ver">
+    <div class="details__section">
+        <div class="details__galery">
+            <img class="card__icon" height="40px" src="{% static 'icons/arrow-left-solid.svg' %}" />
+            <img class="details__galery_image" src="{{ offer.imagegalery.images.0.image.url }}" alt="">
+            <img class="card__icon" height="40px" src="{% static 'icons/arrow-right-solid.svg' %}" />
+        </div>
+        <div class="details__galery_image_counter">01/15</div>
+    </div>
+    <div class='details__section'>
+        <h2 class="details__section_title">{{ offer.name }}</h2>
+        <strong class="details__section_title">Current price: {{ offer.starting_price }} lv.</strong>
+        <div class="list-hor">
+            <div class="list-ver">
+                <div class="list-hor">
+                    <img class="card__icon" height="20px" src="{% static 'icons/location.svg' %}" />
+                    <div class="card__info_text">Location: {{ offer.location }}</div>
+                </div>
+                <div class="list-hor">
+                    <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
+                    <div class="card__info_text">Added: {{ offer.published_on }}</div>
+                </div>
+                <div class="list-hor">
+                    <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
+                    <div class="card__info_text">Expires: {{ offer.expires_on }}</div>
+                </div>
+            </div>
+            <div class="list-ver">
+                <div class="list-hor">
+                    <div class="card__info_text">Condition: {{ offer.get_condition_display }}</div>
+                </div>
+                <div class="list-hor">
+                    <div class="card__info_text">Category: {{ offer.category }}</div>
+                </div>
+                <div class="list-hor">
+                    <div class="card__info_text">Viewed: {{ offer.view_counts }} times</div>
+                </div>
+            </div>
+        </div>
+        <strong class="details__section_title">Description</strong>
+        <div class="card__info_text">{{ offer.description }}</div>
+    </div>
+    <div class="details__section">
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_css %}
+<link rel="stylesheet" href="{% static 'css/06.Components/offer_details.css' %}">
+{% endblock page_css %}
+
+{% block page_content %}
+<div class="list-ver">
+    {% include 'partials/offer_details_view.html' with offer=offer %}
+</div>
+{% endblock page_content %}

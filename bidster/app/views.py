@@ -59,6 +59,15 @@ def create_page(req):
             return redirect('index')
 
 
+def details_page(req, offer_id):
+    if req.method == 'GET':
+        context = {
+            'offer': Offer.objects.prefetch_related(Prefetch('imagegalery__image_set', queryset=Image.objects.all(), to_attr='images')).get(pk=offer_id),
+        }
+
+        return render(req, 'app/offer_details.html', context)
+
+
 @login_required
 def my_offers_page(req):
     if req.method == 'GET':
