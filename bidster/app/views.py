@@ -1,33 +1,28 @@
 from datetime import timedelta
 
 from django.db.models import Prefetch
+from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 from django.shortcuts import render, redirect
 from django.utils.timezone import now
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from app.forms import OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
+from app.utils.db_requests import get_offers
 from app.utils.file_upload import save_to_galery
 
-# Create your views here.
 
+class IndexView(TemplateView):
+    template_name = 'app/index.html'
 
-def index_page(req):
-    if req.method == 'GET':
-        context = {
-            'offers_count': Offer.objects.count(),
-            'categories': OfferCategory.objects.all(),
-            'last_five_offers': Offer.objects.all()
-            .prefetch_related(Prefetch(
-                'imagegalery__image_set',
-                queryset=Image.objects.all(), to_attr='images'
-            ))
-            .prefetch_related(Prefetch(
-                'bid_set',
-                queryset=Bid.objects.all().order_by('-amount'), to_attr='bids'
-            )),
-        }
-        return render(req, 'app/index.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['offers_count'] = Offer.objects.count()
+        context['categories'] = OfferCategory.objects.all()
+        context['last_five_offers'] = get_offers(limit=5)
+        return context
 
 
 @login_required
@@ -103,12 +98,17 @@ def details_page(req, offer_id):
             return render(req, 'app/offer_details.html', context)
 
 
-@login_required
-def my_offers_page(req):
-    if req.method == 'GET':
-        my_offers = Offer.objects.filter(created_by=req.user.id).prefetch_related(Prefetch('imagegalery__image_set', queryset=Image.objects.all(
-        ), to_attr='images')).prefetch_related(Prefetch('bid_set', queryset=Bid.objects.all().order_by('-amount'), to_attr='bids'))
-        context = {
-            'my_offers': my_offers,
-        }
-        return render(req, 'app/my_offers.html', context)
+class MyOffersView(LoginRequiredMixin, ListView):
+    context_object_name = 'my_offers'
+    template_name = 'app/my_offers.html'
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        req = self.request
+        self.offers = get_offers(created_by=req.user.id)
+        return self.offers
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MyOffersView, self).get_context_data(*args, **kwargs)
+        context['my_offers'] = self.offers
+        return context
