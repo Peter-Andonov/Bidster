@@ -4,24 +4,23 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 
 from bidster_auth.models import Profile
-from bidster_auth.forms import RegisterForm, LoginForm
+from bidster_auth.forms import LoginForm, RegistrationForm
 
 
 @transaction.atomic
 def register_user(req):
     if req.method == 'GET':
         context = {
-            'register_form': RegisterForm(),
+            'register_form': RegistrationForm(),
         }
 
         return render(req, 'bidster_auth/register.html', context)
 
     if req.method == 'POST':
-        register_form = RegisterForm(req.POST)
+        register_form = RegistrationForm(req.POST)
         if register_form.is_valid():
             new_user = User.objects.create_user(
-                username=register_form.cleaned_data['email'],
-                email=register_form.cleaned_data['email'],
+                username=register_form.cleaned_data['username'],
                 password=register_form.cleaned_data['password1'],
             )
 
