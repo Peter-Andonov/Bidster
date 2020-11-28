@@ -1,12 +1,14 @@
 from datetime import timedelta
 
+from django.db import transaction
 from django.db.models import Prefetch
 from django.views.generic import TemplateView
+from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.shortcuts import render, redirect
-from django.utils.timezone import now
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.utils.timezone import now
+from django.utils.decorators import method_decorator
+from django.shortcuts import render, redirect
 
 from app.forms import OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
@@ -24,19 +26,17 @@ class IndexView(TemplateView):
         context['last_five_offers'] = get_offers(limit=5)
         return context
 
+@method_decorator(transaction.atomic, name='post')
+class CreateOfferView(LoginRequiredMixin, FormView):
+    form_class = OfferForm
+    template_name = 'app/create_offer.html'
 
-@login_required
-def create_page(req):
-    if req.method == 'GET':
+    def get_context_data(self, **kwargs):
+        context = super(CreateOfferView, self).get_context_data(**kwargs)
+        context["offer_form"] = context["form"]
+        return context
 
-        context = {
-            'offer_form': OfferForm()
-        }
-
-        return render(req, 'app/create_offer.html', context)
-
-    if req.method == 'POST':
-
+    def post(self, req, *args, **kwargs):
         offer_form = OfferForm(req.POST, req.FILES)
 
         if offer_form.is_valid():

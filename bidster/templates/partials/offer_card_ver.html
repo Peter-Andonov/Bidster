@@ -1,8 +1,8 @@
 {% load static %}
 <div class="card_ver__wrapper">
-    {% for image in offer.imagegalery.images %}
-        <img class="card_ver__image" src="{{ image.image.url }}">
-    {% endfor %}
+    {% if offer.imagegalery.images %}
+    <img class="card_ver__image" src="{{ offer.imagegalery.images.0.image.url }}">
+    {% endif %}
     <h4 class="card__title">{{ offer.name }}</h4>
     <div class="spacer"></div>
     <div class="list-hor">
@@ -19,9 +19,9 @@
     </div>
     <div class="list-hor">
         {% if offer.bids %}
-            <div class="card__price">{{ offer.bids.0.amount }} lv.</div>
+        <div class="card__price">{{ offer.bids.0.amount }} lv.</div>
         {% else %}
-            <div class="card__price">{{ offer.starting_price }} lv.</div>
+        <div class="card__price">{{ offer.starting_price }} lv.</div>
         {% endif %}
         <div class="spacer"></div>
         <a href="{% url 'details page' offer_id=offer.id %}" class="card__btn">View Details</a>
