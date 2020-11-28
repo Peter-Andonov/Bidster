@@ -1,4 +1,4 @@
-<form class="list-ver" action="/create-offer/" method="POST" enctype="multipart/form-data">
+<form class="list-ver" action="{% url 'create page' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class='form__section'>
         <label class="form__label" for="{{ offer_form.name.auto_id }}">{{ offer_form.name.label }}</label>

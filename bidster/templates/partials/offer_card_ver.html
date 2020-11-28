@@ -3,11 +3,7 @@
     {% for image in offer.imagegalery.images %}
         <img class="card_ver__image" src="{{ image.image.url }}">
     {% endfor %}
-    <h4>
-        <a href="/">
-            <strong class="card__title highlightable">{{ offer.name }}</strong>
-        </a>
-    </h4>
+    <h4 class="card__title">{{ offer.name }}</h4>
     <div class="spacer"></div>
     <div class="list-hor">
         <img class="card__icon" height="20px" src="{% static 'icons/location.svg' %}" />
@@ -22,8 +18,12 @@
         <div class="card__info_text">Expires - {{ offer.expires_on}}</div>
     </div>
     <div class="list-hor">
-        <div class="card__price">{{ offer.starting_price}} lv.</div>
+        {% if offer.bids %}
+            <div class="card__price">{{ offer.bids.0.amount }} lv.</div>
+        {% else %}
+            <div class="card__price">{{ offer.starting_price }} lv.</div>
+        {% endif %}
         <div class="spacer"></div>
-        <img class="card__icon" height="30px" src="{% static 'icons/heart.svg' %}" />
+        <a href="{% url 'details page' offer_id=offer.id %}" class="card__btn">View Details</a>
     </div>
 </div>
