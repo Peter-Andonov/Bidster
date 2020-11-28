@@ -7,6 +7,8 @@ from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
@@ -62,30 +64,19 @@ class CreateOfferView(LoginRequiredMixin, FormView):
                 save_to_galery(image_gallery, f)
 
             return redirect('index')
+        else:
+            return super().form_invalid(offer_form)
 
 
-def details_page(req, offer_id):
+@method_decorator(login_required, name='post')
+class OfferDetailsView(FormView):
+    form_class = BidForm
+    template_name = 'app/offer_details.html'
+    success_url = reverse_lazy('index')
 
-    offer = get_offer_by_id(offer_id=offer_id)
-    offer_bids = get_offer_bids(offer_id=offer_id)
-    highest_bid = offer_bids[0].amount if offer_bids else None
-    user_is_creator = req.user.id == offer.created_by.id
-
-    if req.method == "GET":
-        offer.view_counts += 1
-        offer.save()
-
-        context = {
-            'user_is_creator': user_is_creator,
-            'offer': offer,
-            'offer_bids': offer_bids,
-            'highest_bid': highest_bid,
-            'bid_form': BidForm(offer_id=offer_id),
-        }
-
-        return render(req, 'app/offer_details.html', context)
-
-    if req.method == "POST":
+    def post(self, req, *args, **kwargs):
+        offer_id = self.kwargs['offer_id']
+        offer = Offer.objects.get(pk=offer_id)
         bid_form = BidForm(req.POST, offer_id=offer_id)
         if bid_form.is_valid():
             amount = bid_form.cleaned_data.get('amount')
@@ -95,15 +86,25 @@ def details_page(req, offer_id):
             bid.save()
             return redirect("index")
         else:
-            context = {
-                'user_is_creator': user_is_creator,
-                'offer': offer,
-                'offer_bids': offer_bids,
-                'highest_bid': highest_bid,
-                'bid_form': bid_form,
-            }
+            return super().form_invalid(bid_form)
 
-            return render(req, 'app/offer_details.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(OfferDetailsView, self).get_context_data(**kwargs)
+        offer_id = self.kwargs['offer_id']
+        offer = get_offer_by_id(offer_id=offer_id)
+        offer_bids = get_offer_bids(offer_id=offer_id)
+        highest_bid = offer_bids[0].amount if offer_bids else None
+        user_is_creator = self.request.user.id == offer.created_by.id
+
+        offer.view_counts += 1
+        offer.save()
+
+        context["user_is_creator"] = user_is_creator
+        context["offer"] = offer
+        context["offer_bids"] = offer_bids
+        context["highest_bid"] = highest_bid
+        context["bid_form"] = context["form"]
+        return context
 
 
 class MyOffersView(LoginRequiredMixin, ListView):
