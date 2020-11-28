@@ -9,35 +9,6 @@ from bidster_auth.models import Profile
 from bidster_auth.forms import LoginForm, RegistrationForm
 
 
-def login_user(req):
-    if req.method == 'GET':
-        context = {
-            'login_form': LoginForm(),
-        }
-
-        return render(req, 'bidster_auth/login.html', context)
-
-    if req.method == 'POST':
-        login_form = LoginForm(req.POST)
-        if login_form.is_valid():
-            email = login_form.cleaned_data['email']
-            password = login_form.cleaned_data['password']
-
-            user = authenticate(username=email, password=password)
-            if user:
-                login(req, user)
-                return redirect('index')
-            else:
-                login_form.errors['invalid_credentials'] = [
-                    "Invalid email or password"]
-
-        context = {
-            'login_form': login_form,
-        }
-
-        return render(req, 'bidster_auth/login.html', context)
-
-
 def logout_user(req):
     logout(req)
 
@@ -74,4 +45,34 @@ class RegisterUserView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["register_form"] = context["form"]
+        return context
+
+
+class LoginUserView(FormView):
+    form_class = LoginForm
+    template_name = 'bidster_auth/login.html'
+
+    def post(self, req, *args, **kwargs):
+        login_form = LoginForm(req, req.POST)
+        if login_form.is_valid():
+            email = login_form.cleaned_data['username']
+            password = login_form.cleaned_data['password']
+
+            user = authenticate(username=email, password=password)
+            if user:
+                login(req, user)
+                return redirect('index')
+        else:
+            login_form.errors['invalid_credentials'] = [
+                "Invalid username or password"]
+
+        context = {
+            'login_form': login_form,
+        }
+
+        return render(req, 'bidster_auth/login.html', context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["login_form"] = context["form"]
         return context
