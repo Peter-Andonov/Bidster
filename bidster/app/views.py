@@ -5,6 +5,7 @@ from django.db.models import Prefetch
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.timezone import now
 from django.utils.decorators import method_decorator
@@ -12,7 +13,7 @@ from django.shortcuts import render, redirect
 
 from app.forms import OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
-from app.utils.db_requests import get_offers
+from app.utils.db_requests import get_offers, get_offer_by_id, get_offer_bids
 from app.utils.file_upload import save_to_galery
 
 
@@ -25,6 +26,7 @@ class IndexView(TemplateView):
         context['categories'] = OfferCategory.objects.all()
         context['last_five_offers'] = get_offers(limit=5)
         return context
+
 
 @method_decorator(transaction.atomic, name='post')
 class CreateOfferView(LoginRequiredMixin, FormView):
@@ -63,16 +65,20 @@ class CreateOfferView(LoginRequiredMixin, FormView):
 
 
 def details_page(req, offer_id):
-    offer = Offer.objects.prefetch_related(Prefetch(
-        'imagegalery__image_set', queryset=Image.objects.all(), to_attr='images')).get(pk=offer_id)
-    offer_bids = Bid.objects.filter(offer=offer_id).order_by('-amount')
+
+    offer = get_offer_by_id(offer_id=offer_id)
+    offer_bids = get_offer_bids(offer_id=offer_id)
     highest_bid = offer_bids[0].amount if offer_bids else None
+    user_is_creator = req.user.id == offer.created_by.id
+
     if req.method == "GET":
         offer.view_counts += 1
         offer.save()
 
         context = {
+            'user_is_creator': user_is_creator,
             'offer': offer,
+            'offer_bids': offer_bids,
             'highest_bid': highest_bid,
             'bid_form': BidForm(offer_id=offer_id),
         }
@@ -90,7 +96,9 @@ def details_page(req, offer_id):
             return redirect("index")
         else:
             context = {
+                'user_is_creator': user_is_creator,
                 'offer': offer,
+                'offer_bids': offer_bids,
                 'highest_bid': highest_bid,
                 'bid_form': bid_form,
             }
