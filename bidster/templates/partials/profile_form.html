@@ -1,0 +1,26 @@
+{% load static  %}
+
+<form class="form__wrapper" action="{% url 'login user' %}" method="POST" enctype="multipart/form-data">
+    <div class="mp_title">Edit your profile</div>
+    <div class='form__previews_container'>
+        {% if current_pic_url %}
+        <img src="{{ current_pic_url }}"/>
+        {% else %}
+        <img src="{% static 'images/avatar.jpg' %}"/>
+        {% endif %}
+    </div>
+    {{ profile_form.profile_pic }}
+    <label class="form__image_input" for="{{ profile_form.profile_pic.auto_id }}">+ Change picture</label>
+    {% csrf_token %}
+    <label class="form__label" for="{{ profile_form.first_name.auto_id }}">{{ profile_form.first_name.label }}</label>
+    {{ profile_form.first_name }}
+    <label class="form__label" for="{{ profile_form.last_name.auto_id }}">{{ profile_form.last_name.label }}</label>
+    {{ profile_form.last_name }}
+    <label class="form__label" for="{{ profile_form.email.auto_id }}">{{ profile_form.email.label }}</label>
+    {{ profile_form.email }}
+    <label class="form__label" for="{{ profile_form.phone_number.auto_id }}">{{ profile_form.phone_number.label }}</label>
+    {{ profile_form.phone_number }}
+    <label class="form__label" for="{{ profile_form.location.auto_id }}">{{ profile_form.location.label }}</label>
+    {{ profile_form.location }}
+    <button class='form__submit' type='submit'>Save</button>
+</form>

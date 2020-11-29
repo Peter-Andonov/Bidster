@@ -21,7 +21,7 @@
             <li class="nav__nav_item spacer"></li>
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
-                <a href="{% url 'logout user' %}">{{ user.username }}</a>
+                <a href="{% url 'user profile' %}">{{ user.username }}</a>
             </li>
             <li class="nav__nav_item">
                 <a href="{% url 'logout user' %}">Logout</a>

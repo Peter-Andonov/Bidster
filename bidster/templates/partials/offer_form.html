@@ -18,9 +18,9 @@
     </div>
     <div class='form__section'>
         <label class="form__label">{{ offer_form.images.label }}</label>
-        <div class='form__previews_container'></div>
+        <div class='form__previews_container' id="id_previews_container"></div>
         {{ offer_form.images }}
-        <label class="form__label" id='add_images' for="{{ offer_form.images.auto_id }}">+ Add Images</label>
+        <label class="form__image_input" for="{{ offer_form.images.auto_id }}">+ Add Images</label>
     </div>
     <div class='form__section'>
         <label class="form__label" for="{{ offer_form.location.auto_id }}">{{ offer_form.location.label }}</label>

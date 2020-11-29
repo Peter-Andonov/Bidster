@@ -1,5 +1,5 @@
 const imgContainer = document.querySelector('.form__previews_container');
-const imgInput = document.getElementById('id_images');
+const imgInput = document.querySelector('.form__image_input');
 
 imgInput.addEventListener('change', (e) => {
     imgContainer.innerHTML = '';
@@ -15,6 +15,5 @@ imgInput.addEventListener('change', (e) => {
 
 const createImgContainer = () => {
     let container = document.createElement("img");
-    container.classList.add('form__image_preview');
     return container;
 }

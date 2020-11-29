@@ -263,3 +263,14 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+.form__image_input {
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+    color: var(--text-color-primary);
+    margin: 20px 0;
+}
+
+.form__image_input:hover {
+    cursor: pointer;
+}

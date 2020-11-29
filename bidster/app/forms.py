@@ -105,6 +105,7 @@ class OfferForm(forms.Form):
             attrs={
                 'accept': 'image/*',
                 'multiple': True,
+                'class': 'form__image_input',
                 'style': 'display:none',
             })
     )

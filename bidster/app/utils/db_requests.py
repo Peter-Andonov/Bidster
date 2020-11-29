@@ -1,6 +1,8 @@
 from django.db.models import Prefetch, Q
+from django.contrib.auth.models import User
 
 from app.models import Offer, Image, Bid
+from bidster_auth.models import Profile
 
 
 def get_offer_by_id(offer_id):
@@ -15,6 +17,14 @@ def get_offer_by_id(offer_id):
     return offer
 
 
+def get_user_data(user_id):
+    user_data = User.objects\
+    .prefetch_related('profile')\
+    .get(pk=user_id)
+
+    return user_data
+
+
 def get_offer_bids(offer_id):
     offer_bids = Bid.objects.filter(for_offer=offer_id)\
         .prefetch_related('created_by')\
@@ -25,8 +35,8 @@ def get_offer_bids(offer_id):
 
 def get_bids_by_user_id(user_id):
     user_bids = Bid.objects.filter(created_by=user_id)\
-    .prefetch_related('for_offer')\
-    .order_by('-amount')
+        .prefetch_related('for_offer')\
+        .order_by('-amount')
 
     return user_bids
 
