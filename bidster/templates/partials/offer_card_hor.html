@@ -7,11 +7,7 @@
         <div class="list-hor">
             <h4 class="card__title">{{ offer.name }}</h4>
             <div class="spacer"></div>
-            {% if offer.bids %}
-            <div class="card__price">{{ offer.bids.0.amount }} lv.</div>
-            {% else %}
-            <div class="card__price">{{ offer.starting_price }} lv.</div>
-            {% endif %}
+            <div class="card__price">{{ offer.current_price }} lv.</div>
         </div>
         <div class="spacer"></div>
         <div class="list-hor">

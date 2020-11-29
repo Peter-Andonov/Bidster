@@ -16,14 +16,14 @@ def get_offer_by_id(offer_id):
 
 
 def get_offer_bids(offer_id):
-    offer_bids = Bid.objects.filter(offer=offer_id)\
+    offer_bids = Bid.objects.filter(for_offer=offer_id)\
         .prefetch_related('created_by')\
         .order_by('-amount')
 
     return offer_bids
 
 
-def get_offers(text='', category_id=None, created_by=None, condition=None, limit=None):
+def get_offers(text='', category_id=None, created_by=None, condition=None, price_from=None, price_to=None, limit=None):
     q = Q()
 
     if text:
@@ -35,6 +35,12 @@ def get_offers(text='', category_id=None, created_by=None, condition=None, limit
     if condition:
         q = q & Q(condition=condition)
 
+    if price_from:
+        q = q & Q(current_price__gte=price_from)
+
+    if price_to:
+        q = q & Q(current_price__lte=price_to)
+
     if created_by:
         q = q & Q(created_by=created_by)
 
@@ -44,11 +50,6 @@ def get_offers(text='', category_id=None, created_by=None, condition=None, limit
         Prefetch(
             'imagegalery__image_set',
             queryset=Image.objects.all(), to_attr='images'
-        ))\
-        .prefetch_related(
-        Prefetch(
-            'bid_set',
-            queryset=Bid.objects.all().order_by('-amount'), to_attr='bids'
         ))[:limit]
 
     return offers

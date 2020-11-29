@@ -5,7 +5,7 @@
                 <a href="{% url 'index' %}">Home</a>
             </li>
             <li class="nav__nav_item">
-                <a href="/offers">Offers</a>
+                <a href="{% url 'search results' %}">Offers</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
@@ -15,7 +15,7 @@
                 <a href="{% url 'my offers page' %}">My offers</a>
             </li>
             <li class="nav__nav_item">
-                <a href="/bids">My bids</a>
+                <a href="/my-bids">My bids</a>
             </li>
             {% endif %}
             <li class="nav__nav_item spacer"></li>

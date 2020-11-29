@@ -18,11 +18,7 @@
         <div class="card__info_text">Expires - {{ offer.expires_on}}</div>
     </div>
     <div class="list-hor">
-        {% if offer.bids %}
-        <div class="card__price">{{ offer.bids.0.amount }} lv.</div>
-        {% else %}
-        <div class="card__price">{{ offer.starting_price }} lv.</div>
-        {% endif %}
+        <div class="card__price">{{ offer.current_price }} lv.</div>
         <div class="spacer"></div>
         <a href="{% url 'details page' offer_id=offer.id %}" class="card__btn">View Details</a>
     </div>

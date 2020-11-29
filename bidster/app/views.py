@@ -13,21 +13,50 @@ from django.utils.timezone import now
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 
-from app.forms import OfferForm, BidForm
+from app.forms import SearchForm, OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
 from app.utils.db_requests import get_offers, get_offer_by_id, get_offer_bids
 from app.utils.file_upload import save_to_galery
 
 
-class IndexView(TemplateView):
+class IndexView(FormView):
+    form_class = SearchForm
     template_name = 'app/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['offers_count'] = Offer.objects.count()
         context['categories'] = OfferCategory.objects.all()
         context['last_five_offers'] = get_offers(limit=5)
         return context
+
+
+class SearchResultsView(ListView):
+    template_name = 'app/search_results.html'
+
+    def get(self, *args, **kwargs):
+        search_form = SearchForm(self.request.GET)
+        if search_form.is_valid():
+            category_id = search_form.cleaned_data['category'].id if search_form.cleaned_data['category'] else None
+            offers = get_offers(
+                text=search_form.cleaned_data['text'],
+                category_id=category_id,
+                condition=search_form.cleaned_data['condition'],
+                price_from=search_form.cleaned_data['price_from'],
+                price_to=search_form.cleaned_data['price_to'],
+            )
+
+            context = {
+                'search_form': SearchForm(),
+                'offers': offers,
+            }
+
+            return render(self.request, self.template_name, context)
+        else:
+            context = {
+                'search_form': search_form,
+            }
+
+            return render(self.request, self.template_name, context)
 
 
 @method_decorator(transaction.atomic, name='post')
@@ -49,6 +78,7 @@ class CreateOfferView(LoginRequiredMixin, FormView):
                 description=offer_form.cleaned_data['description'],
                 condition=offer_form.cleaned_data['condition'],
                 starting_price=offer_form.cleaned_data['starting_price'],
+                current_price=offer_form.cleaned_data['starting_price'],
                 category=offer_form.cleaned_data['category'],
                 location=offer_form.cleaned_data['location'],
                 created_by=req.user,
@@ -69,6 +99,7 @@ class CreateOfferView(LoginRequiredMixin, FormView):
 
 
 @method_decorator(login_required, name='post')
+@method_decorator(transaction.atomic, name='post')
 class OfferDetailsView(FormView):
     form_class = BidForm
     template_name = 'app/offer_details.html'
@@ -82,8 +113,10 @@ class OfferDetailsView(FormView):
             amount = bid_form.cleaned_data.get('amount')
             message = bid_form.cleaned_data.get('message')
             bid = Bid(amount=amount, message=message,
-                      offer=offer, created_by=req.user)
+                      for_offer=offer, created_by=req.user)
             bid.save()
+            offer.current_price = amount
+            offer.save()
             return redirect("index")
         else:
             return super().form_invalid(bid_form)
@@ -92,17 +125,18 @@ class OfferDetailsView(FormView):
         context = super(OfferDetailsView, self).get_context_data(**kwargs)
         offer_id = self.kwargs['offer_id']
         offer = get_offer_by_id(offer_id=offer_id)
-        offer_bids = get_offer_bids(offer_id=offer_id)
-        highest_bid = offer_bids[0].amount if offer_bids else None
+        offer_bids = None
         user_is_creator = self.request.user.id == offer.created_by.id
 
+        if user_is_creator:
+            offer_bids = get_offer_bids(offer_id=offer_id)
+        
         offer.view_counts += 1
         offer.save()
 
         context["user_is_creator"] = user_is_creator
         context["offer"] = offer
         context["offer_bids"] = offer_bids
-        context["highest_bid"] = highest_bid
         context["bid_form"] = context["form"]
         return context
 

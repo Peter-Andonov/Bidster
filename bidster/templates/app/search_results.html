@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block page_content %}
+<div class="list-ver">
+    {% include 'partials/search.html' with search_form=search_form %}
+    {% for offer in offers %}
+    {% include 'partials/offer_card_hor.html' with offer=offer %}
+    {% empty%}
+    <h2 class="mp_title">No matching offers were found</h2>
+    {% endfor %}
+</div>
+{% endblock page_content %}
