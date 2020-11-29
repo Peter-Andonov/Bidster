@@ -47,8 +47,7 @@
         <div class="list-ver">
             {% for bid in offer_bids %}
             <div class="list-hor">
-                <div class="card__info_text">From: {{ bid.created_by.username }}</div>
-                <div class="card__info_text">Amount: {{ bid.amount }} lv.</div>
+                <div class="card__info_text">{{ bid.created_by.username }} bid {{ bid.amount }} lv. on {{ bid.created_on}}</div>
             </div>
             {% empty %}
             <div class="list-hor">

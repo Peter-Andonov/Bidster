@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect
 
 from app.forms import SearchForm, OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
-from app.utils.db_requests import get_offers, get_offer_by_id, get_offer_bids
+from app.utils.db_requests import get_offers, get_offer_by_id, get_offer_bids, get_bids_by_user_id
 from app.utils.file_upload import save_to_galery
 
 
@@ -154,4 +154,20 @@ class MyOffersView(LoginRequiredMixin, ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(MyOffersView, self).get_context_data(*args, **kwargs)
         context['my_offers'] = self.offers
+        return context
+
+
+class MyBidsView(LoginRequiredMixin, ListView):
+    context_object_name = 'my_bids'
+    template_name = 'app/my_bids.html'
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        req = self.request
+        self.bids = get_bids_by_user_id(user_id=req.user.id)
+        return self.bids
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MyBidsView, self).get_context_data(*args, **kwargs)
+        context['my_bids'] = self.bids
         return context

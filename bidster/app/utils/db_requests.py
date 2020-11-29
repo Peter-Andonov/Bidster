@@ -23,6 +23,14 @@ def get_offer_bids(offer_id):
     return offer_bids
 
 
+def get_bids_by_user_id(user_id):
+    user_bids = Bid.objects.filter(created_by=user_id)\
+    .prefetch_related('for_offer')\
+    .order_by('-amount')
+
+    return user_bids
+
+
 def get_offers(text='', category_id=None, created_by=None, condition=None, price_from=None, price_to=None, limit=None):
     q = Q()
 
