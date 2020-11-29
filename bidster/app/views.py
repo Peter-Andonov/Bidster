@@ -46,7 +46,7 @@ class SearchResultsView(ListView):
             )
 
             context = {
-                'search_form': SearchForm(),
+                'search_form': search_form,
                 'offers': offers,
             }
 
