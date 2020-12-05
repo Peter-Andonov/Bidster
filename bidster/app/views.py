@@ -13,6 +13,7 @@ from django.utils.timezone import now
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 
+from app.tasks import expire_offer
 from app.forms import SearchForm, OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
 from app.utils.db_requests import get_offers, get_offer_by_id, get_offer_bids, get_bids_by_user_id
@@ -35,6 +36,8 @@ class SearchResultsView(ListView):
 
     def get(self, *args, **kwargs):
         search_form = SearchForm(self.request.GET)
+
+        expire_offer.delay(10)
 
         if search_form.is_valid():
             category_id = search_form.cleaned_data['category'].id if search_form.cleaned_data['category'] else None

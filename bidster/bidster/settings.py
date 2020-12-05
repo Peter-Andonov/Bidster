@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_celery_results',
+
     'bidster_auth',
     'app',
 ]
@@ -137,3 +140,8 @@ STATICFILES_DIRS = (
 MEDIA_DIR_NAME = 'media'
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_DIR_NAME)
 MEDIA_URL = '/media/'
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'
