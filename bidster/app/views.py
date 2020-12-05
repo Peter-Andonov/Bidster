@@ -127,7 +127,7 @@ class OfferDetailsView(FormView):
             return super().form_invalid(bid_form)
 
     def get_context_data(self, **kwargs):
-        context = super(OfferDetailsView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         offer_id = self.kwargs['offer_id']
         offer = get_offer_by_id(offer_id=offer_id)
         offer_bids = None
@@ -141,6 +141,7 @@ class OfferDetailsView(FormView):
 
         context["user_is_creator"] = user_is_creator
         context["offer"] = offer
+        context["image_count"] = len(offer.imagegalery.images)
         context["offer_bids"] = offer_bids
         context["bid_form"] = context["form"]
         return context

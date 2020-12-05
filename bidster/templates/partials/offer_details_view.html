@@ -1,12 +1,17 @@
 {% load static %}
 <div class="list-ver">
-    <div class="details__section">
-        <div class="details__galery">
-            <img class="card__icon" height="40px" src="{% static 'icons/arrow-left-solid.svg' %}" />
+    <div class="details__section align-center">
+        <div class="details__galery space-between">
+            <img class="arrow__icon" height="40px" src="{% static 'icons/arrow-left-solid.svg' %}" />
             <img class="details__galery_image" src="{{ offer.imagegalery.images.0.image.url }}" alt="">
-            <img class="card__icon" height="40px" src="{% static 'icons/arrow-right-solid.svg' %}" />
+            <img class="arrow__icon" height="40px" src="{% static 'icons/arrow-right-solid.svg' %}" />
         </div>
-        <div class="details__galery_image_counter">01/15</div>
+        <div class="details__galery_image_counter">1/{{ image_count }}</div>
+        <div class="details__galery">
+            {% for image in offer.imagegalery.images %}
+            <img class="details__galery_image_preview" src="{{ image.image.url }}" alt="">
+            {% endfor %}
+        </div>
     </div>
     <div class='details__section'>
         <h2 class="details__section_title">{{ offer.name }}</h2>

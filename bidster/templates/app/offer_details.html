@@ -10,3 +10,7 @@
     {% include 'partials/offer_details_view.html' with offer=offer %}
 </div>
 {% endblock page_content %}
+
+{% block javascript %}
+<script type="module" src="{% static 'js/galery_scroller.js' %}"></script>
+{% endblock javascript %}
