@@ -41,13 +41,14 @@
         <strong class="details__section_title">Description</strong>
         <div class="card__info_text">{{ offer.description }}</div>
     </div>
+    {% if user_is_creator %}
     <div class="details__section">
-        {% if user_is_creator %}
         <h4 class="details__section_title">Bids for this offer</h4>
         <div class="list-ver">
             {% for bid in offer_bids %}
             <div class="list-hor">
-                <div class="card__info_text">{{ bid.created_by.username }} bid {{ bid.amount }} lv. on {{ bid.created_on}}</div>
+                <div class="card__info_text">{{ bid.created_by.username }} bid {{ bid.amount }} lv. on
+                    {{ bid.created_on}}</div>
             </div>
             {% empty %}
             <div class="list-hor">
@@ -55,11 +56,31 @@
             </div>
             {% endfor %}
         </div>
-        {% else %}
+    </div>
+    {% else %}
+    <div class="details__section">
+        <h4 class="details__section_title">Contact information</h4>
+        <div class="list-ver">
+            <div class="list-hor">
+                <img class="card__icon" height="20px" src="{% static 'icons/user-solid.svg' %}" />
+                <div class="card__info_text">{{ offer.created_by.username }}</div>
+            </div>
+            <div class="list-hor">
+                <img class="card__icon" height="20px" src="{% static 'icons/envelope-regular.svg' %}" />
+                <div class="card__info_text">{{ offer.created_by.email }}</div>
+            </div>
+            <div class="list-hor">
+                <img class="card__icon" height="20px" src="{% static 'icons/mobile-alt-solid.svg' %}" />
+                <div class="card__info_text">{{ offer.created_by.profile.phone_number }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="details__section">
         <h4 class="details__section_title">Bid on this offer</h4>
         <form class="list-ver" action="{% url 'details page' offer_id=offer.id %}" method="POST">
             {% csrf_token %}
-            <label class="details__bid_form_label" for="{{ bid_form.amount.auto_id }}">{{ bid_form.amount.label }}</label>
+            <label class="details__bid_form_label"
+                for="{{ bid_form.amount.auto_id }}">{{ bid_form.amount.label }}</label>
             {{ bid_form.amount }}
             {% if bid_form.errors %}
             <ul class="errors__container">
@@ -75,6 +96,7 @@
             {{ bid_form.message }}
             <button class="details__btn">Bid</button>
         </form>
-        {% endif %}
     </div>
+    {% endif %}
+</div>
 </div>
