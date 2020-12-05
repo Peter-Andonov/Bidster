@@ -35,12 +35,13 @@ class Offer(models.Model):
         default=UNKNOWN,
     )
     starting_price = models.DecimalField(max_digits=19, decimal_places=2)
+    current_price = models.DecimalField(max_digits=19, decimal_places=2)
     category = models.ForeignKey(OfferCategory, on_delete=models.DO_NOTHING)
     location = models.CharField(max_length=50)
     published_on = models.DateTimeField(default=now, editable=False)
     expires_on = models.DateTimeField(editable=False)
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    view_counts = models.PositiveIntegerField(default=0)
+    view_counts = models.PositiveIntegerField(default=0, editable=False)
 
     def __str__(self):
         return self.name
@@ -59,5 +60,6 @@ class Image(models.Model):
 class Bid(models.Model):
     amount = models.DecimalField(max_digits=19, decimal_places=2)
     message = models.CharField(max_length=200)
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    for_offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(default=now, editable=False)

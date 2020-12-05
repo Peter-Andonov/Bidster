@@ -1,4 +1,4 @@
 <div class="category-item__wrapper">
     <img class="category-item__image" src="{{ category.image.url }}" />
-    <div class="category-item__title highlightable">{{category.name}}</div>
+    <a href="{% url 'search results' %}?category={{category.id}}" class="category-item__title highlightable">{{category.name}}</a>
 </div>

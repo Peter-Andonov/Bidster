@@ -4,6 +4,62 @@ from django.core.exceptions import ValidationError
 from app.models import Offer, OfferCategory, Bid
 
 
+class SearchForm(forms.Form):
+    text = forms.CharField(
+        label='Text',
+        required=False,
+        max_length=200,
+        widget=forms.TextInput(attrs={
+            'class': 'search__input',
+            'placeholder': f"Search in {Offer.objects.count()} offers"
+        })
+    )
+    condition = forms.CharField(
+        label='Condition',
+        required=False,
+        widget=forms.Select(
+            attrs={
+                'class': 'search__filter_input',
+            },
+            choices=(("", "---------"), *Offer.CONDITION_TYPE_CHOICES),
+        )
+    )
+    category = forms.ModelChoiceField(
+        label='Category',
+        required=False,
+        queryset=OfferCategory.objects.all(),
+        widget=forms.Select(
+            attrs={
+                'class': 'search__filter_input',
+            }
+        )
+    )
+    price_from = forms.DecimalField(
+        max_digits=19,
+        decimal_places=2,
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'search__filter_input',
+        })
+    )
+    price_to = forms.DecimalField(
+        max_digits=19,
+        decimal_places=2,
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'search__filter_input',
+        })
+    )
+
+    def clean_price_to(self):
+        price_from = self.cleaned_data.get("price_from")
+        price_to = self.cleaned_data.get("price_to")
+        if price_from and price_to and price_from > price_to:
+            raise ValidationError(
+                "Price upper limit cannot be below lower limit")
+        return price_to
+
+
 class BidForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.offer_id = kwargs.pop('offer_id', None)
@@ -15,12 +71,14 @@ class BidForm(forms.ModelForm):
 
     def clean_amount(self):
         offer = Offer.objects.get(pk=self.offer_id)
-        highest_bid = Bid.objects.filter(offer=self.offer_id).order_by('-amount')
         offer_amount = self.cleaned_data.get('amount')
-        if offer_amount < offer.starting_price:
-            raise ValidationError("Bid amount cannot be less than starting price")
-        if highest_bid and offer_amount <= highest_bid[0].amount:
-            raise ValidationError('Bid amount cannot be less than the current price')
+
+        if not offer:
+            raise ValidationError('Offer not found')
+        
+        if offer_amount <= offer.current_price:
+            raise ValidationError('Bid amount must be greater than the current price')
+        
         return offer_amount
 
     class Meta:
@@ -47,6 +105,7 @@ class OfferForm(forms.Form):
             attrs={
                 'accept': 'image/*',
                 'multiple': True,
+                'class': 'form__image_input',
                 'style': 'display:none',
             })
     )

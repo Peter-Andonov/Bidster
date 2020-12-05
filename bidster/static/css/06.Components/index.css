@@ -11,6 +11,9 @@
 }
 
 .nav__nav_item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     height: 100%;
     padding: 0 10px;
 }
@@ -25,15 +28,30 @@
     align-items: center;
 }
 
+.nav__nav_item img{
+    height: 60%;
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
 /* Search stuff */
 .vertical-spacer {
-    margin: 50px 0;
+    margin-top: 50px;
 }
 
 .search-wrapper {
-    background-color: var(--bg-color-default);
-    height: 100px;
     width: 80%;
+}
+
+.search-container {
+    height: 100px;
+    width: 100%;
+    background-color: var(--bg-color-default);
+}
+
+.space_around {
+    justify-content: space-around;
 }
 
 .search__icon-container {
@@ -50,6 +68,20 @@
     width: 100%;
     border: none;
     font-family: var(--text-font-primary);
+    font-size: 26px;
+}
+
+.search__label {
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+    color: var(--text-color-primary);
+}
+
+.search__filter_input {
+    height: 60%;
+    border: none;
+    font-family: var(--text-font-primary);
+    background-color: var(--bg-color-body);
     font-size: 26px;
 }
 
@@ -136,7 +168,18 @@
     width: 80%;
     height: 300px;
     padding: 10px;
-    margin-top: 20px;
+    margin-top: 50px;
+    background-color: var(--bg-color-default);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.bid_card__wrapper {
+    width: 80%;
+    height: 100px;
+    padding: 10px;
+    margin-top: 50px;
     background-color: var(--bg-color-default);
     display: flex;
     flex-direction: row;
@@ -214,10 +257,14 @@
 }
 
 .errors__container {
-    padding: 10px;
+    padding: 5px;
     display: flex;
     flex-direction: column;
     align-items: left;
+}
+
+.errors__container li {
+    margin: 5px;
 }
 
 .errors__text {
@@ -225,4 +272,15 @@
     font-family: var(--text-font-primary);
     font-size: 18px;
     font-weight: 500;
+}
+
+.form__image_input {
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+    color: var(--text-color-primary);
+    margin: 20px 0;
+}
+
+.form__image_input:hover {
+    cursor: pointer;
 }

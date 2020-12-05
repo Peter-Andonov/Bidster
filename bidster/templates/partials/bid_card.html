@@ -1,0 +1,8 @@
+{% load static %}
+<div class="bid_card__wrapper">
+    <div class="list-hor">
+        <div class="card__title">{{ bid.created_on }} - You bid {{ bid.amount }} lv. on {{ bid.for_offer.name }}</div>
+        <div class="spacer"></div>
+        <a href="{% url 'details page' offer_id=bid.for_offer.id %}" class="card__btn">View Offer</a>
+    </div>
+</div>

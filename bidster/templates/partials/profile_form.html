@@ -1,0 +1,80 @@
+{% load static %}
+
+<form class="form__wrapper" action="{% url 'user profile' %}" method="POST" enctype="multipart/form-data">
+    <div class="mp_title">Edit your profile</div>
+    <div class='form__previews_container'>
+        {% if current_pic_url %}
+        <img src="{{ current_pic_url }}"/>
+        {% else %}
+        <img src="{% static 'images/avatar.jpg' %}"/>
+        {% endif %}
+    </div>
+    {{ profile_form.profile_pic }}
+    <label class="form__image_input" for="{{ profile_form.profile_pic.auto_id }}">+ Change picture</label>
+    {% if profile_form.errors.profile_pic %}
+        <ul class="errors__container">
+            {% for error in profile_form.errors.profile_pic %}
+            <li>
+                <strong class="errors__text" >*{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% csrf_token %}
+    <label class="form__label" for="{{ user_form.first_name.auto_id }}">{{ user_form.first_name.label }}</label>
+    {{ user_form.first_name }}
+    {% if user_form.errors.first_name %}
+        <ul class="errors__container">
+            {% for error in user_form.errors.first_name %}
+            <li>
+                <strong class="errors__text" >*{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <label class="form__label" for="{{ user_form.last_name.auto_id }}">{{ user_form.last_name.label }}</label>
+    {{ user_form.last_name }}
+    {% if user_form.errors.last_name %}
+        <ul class="errors__container">
+            {% for error in user_form.errors.last_name %}
+            <li>
+                <strong class="errors__text" >*{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <label class="form__label" for="{{ user_form.email.auto_id }}">{{ user_form.email.label }}</label>
+    {{ user_form.email }}
+    {% if user_form.errors.email %}
+        <ul class="errors__container">
+            {% for error in user_form.errors.email %}
+            <li>
+                <strong class="errors__text" >*{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <label class="form__label" for="{{ profile_form.phone_number.auto_id }}">{{ profile_form.phone_number.label }}</label>
+    {{ profile_form.phone_number }}
+    {% if profile_form.errors.phone_number %}
+        <ul class="errors__container">
+            {% for error in profile_form.errors.phone_number %}
+            <li>
+                <strong class="errors__text" >*{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <label class="form__label" for="{{ profile_form.location.auto_id }}">{{ profile_form.location.label }}</label>
+    {{ profile_form.location }}
+    {% if profile_form.errors.location %}
+        <ul class="errors__container">
+            {% for error in profile_form.errors.location %}
+            <li>
+                <strong class="errors__text" >*{{ error }}</strong>
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <button class='form__submit' type='submit'>Save</button>
+</form>

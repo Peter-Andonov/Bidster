@@ -1,8 +1,29 @@
 {% load static %}
-<form class="search-wrapper list-hor vertical-spacer">
-    <div class="search__icon-container">
-        <img height="30px" src="{% static 'icons/search.svg' %}" />
+<form class="list-ver search-wrapper" method="GET" action="{% url 'search results' %}">
+    <div class="list-hor search-container vertical-spacer">
+        <div class="search__icon-container">
+            <img height="30px" src="{% static 'icons/search.svg' %}" />
+        </div>
+        {{ search_form.text }}
+        <button class="search__submit highlightable" type="submit">Search</button>
     </div>
-    <input class="search__input" type="text" placeholder="Search in {{ offers_count }} offers">
-    <button class="search__submit highlightable" type="submit">Search</button>
+    <div class="list-hor search-container space_around vertical-spacer">
+        <label class="search__label" for="{{ search_form.condition.auto_id }}">{{ search_form.condition.label }}</label>
+        {{ search_form.condition }}
+        <label class="search__label" for="{{ search_form.category.auto_id }}">{{ search_form.category.label }}</label>
+        {{ search_form.category }}
+        <label class="search__label" for="{{ search_form.price_from.auto_id }}">Price from:</label>
+        {{ search_form.price_from }}
+        <label class="search__label" for="{{ search_form.price_to.auto_id }}">To:</label>
+        {{ search_form.price_to }}
+    </div>
+    {% if search_form.errors %}
+    <ul class="errors__container">
+        {% for error in search_form.errors.price_to %}
+        <li>
+            <strong class="errors__text" >*{{ error }}</strong>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
 </form>

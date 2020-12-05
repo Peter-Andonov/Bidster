@@ -1,3 +1,4 @@
+{% load static %}
 <div class="header">
     <nav class="nav">
         <ul class="nav list-hor">
@@ -5,7 +6,7 @@
                 <a href="{% url 'index' %}">Home</a>
             </li>
             <li class="nav__nav_item">
-                <a href="/offers">Offers</a>
+                <a href="{% url 'search results' %}">Offers</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
@@ -15,13 +16,18 @@
                 <a href="{% url 'my offers page' %}">My offers</a>
             </li>
             <li class="nav__nav_item">
-                <a href="/bids">My bids</a>
+                <a href="{% url 'my bids page' %}">My bids</a>
             </li>
             {% endif %}
             <li class="nav__nav_item spacer"></li>
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
-                <a href="{% url 'logout user' %}">{{ user.username }}</a>
+                {% if user.profile.profile_pic %}
+                    <img src="{{ user.profile.profile_pic.url }}"/>
+                {% else %}
+                    <img src="{% static 'images/avatar.jpg' %}"/>
+                {% endif %}
+                <a href="{% url 'user profile' %}">{{ user.username }}</a>
             </li>
             <li class="nav__nav_item">
                 <a href="{% url 'logout user' %}">Logout</a>
