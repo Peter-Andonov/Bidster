@@ -1,30 +1,36 @@
 <form class="list-ver" action="{% url 'create page' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class='form__section'>
-        <label class="form__label" for="{{ offer_form.name.auto_id }}">{{ offer_form.name.label }}</label>
-        {{ offer_form.name }}
-        <label class="form__label" for="{{ offer_form.category.auto_id }}">{{ offer_form.category.label }}</label>
-        {{ offer_form.category }}
-        <label class="form__label" for="{{ offer_form.condition.auto_id }}">{{ offer_form.condition.label }}</label>
-        {{ offer_form.condition }}
-        <label class="form__label" for="{{ offer_form.active_for.auto_id }}">{{ offer_form.active_for.label }}</label>
-        {{ offer_form.active_for }}
-        <label class="form__label" for="{{ offer_form.starting_price.auto_id }}">{{ offer_form.starting_price.label }}</label>
-        {{ offer_form.starting_price }}
+        <label class="form__label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+        {{ form.name }}
+        <label class="form__label" for="{{ form.category.auto_id }}">{{ form.category.label }}</label>
+        {{ form.category }}
+        <label class="form__label" for="{{ form.condition.auto_id }}">{{ form.condition.label }}</label>
+        {{ form.condition }}
+        <label class="form__label" for="{{ form.active_for.auto_id }}">{{ form.active_for.label }} (days)</label>
+        {{ form.active_for }}
+        <label class="form__label" for="{{ form.starting_price.auto_id }}">{{ form.starting_price.label }} (leva)</label>
+        {{ form.starting_price }}
     </div>
     <div class='form__section'>
-        <label class="form__label" for="{{ offer_form.description.auto_id }}">{{ offer_form.description.label }}</label>
-        {{ offer_form.description }}
+        <label class="form__label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+        {{ form.description }}
     </div>
     <div class='form__section'>
-        <label class="form__label">{{ offer_form.images.label }}</label>
+        <label class="form__label">{{ form.images.label }}</label>
         <div class='form__previews_container' id="id_previews_container"></div>
-        {{ offer_form.images }}
-        <label class="form__image_input" for="{{ offer_form.images.auto_id }}">+ Add Images</label>
+        {{ form.images }}
+        <label class="form__image_input" for="{{ form.images.auto_id }}">+ Add Images</label>
     </div>
     <div class='form__section'>
-        <label class="form__label" for="{{ offer_form.location.auto_id }}">{{ offer_form.location.label }}</label>
-        {{ offer_form.location }}
+        <label class="form__label" for="{{ form.contact_person.auto_id }}">{{ form.contact_person.label }}</label>
+        {{ form.contact_person }}
+        <label class="form__label" for="{{ form.contact_email.auto_id }}">{{ form.contact_email.label }}</label>
+        {{ form.contact_email }}
+        <label class="form__label" for="{{ form.contact_phone.auto_id }}">{{ form.contact_phone.label }}</label>
+        {{ form.contact_phone }}
+        <label class="form__label" for="{{ form.location.auto_id }}">{{ form.location.label }}</label>
+        {{ form.location }}
     </div>
     <button class='form__submit highlightable' type='submit'>Create</button>
 </form>

@@ -14,7 +14,7 @@
     <div class="browser__wrapper">
         <h2 class="mp_title">Latest offers</h2>
         <div class="browser__container">
-            {% for offer in last_five_offers %}
+            {% for offer in latest_offers %}
                 {% include 'partials/offer_card_ver.html' with offer=offer %}
             {% endfor %}
         </div>

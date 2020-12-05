@@ -41,6 +41,9 @@ class Offer(models.Model):
     published_on = models.DateTimeField(default=now, editable=False)
     expires_on = models.DateTimeField(editable=False)
     created_by = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    contact_person = models.CharField(max_length=50)
+    contact_email = models.EmailField(blank=True)
+    contact_phone = models.CharField(max_length=50)
     view_counts = models.PositiveIntegerField(default=0, editable=False)
 
     def __str__(self):

@@ -11,7 +11,7 @@ class SearchForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(attrs={
             'class': 'search__input',
-            'placeholder': f"Search in {Offer.objects.count()} offers"
+            'placeholder': "Search in all offers"
         })
     )
     condition = forms.CharField(
@@ -120,6 +120,9 @@ class OfferForm(forms.Form):
     starting_price = forms.DecimalField(max_digits=19, decimal_places=2)
     category = forms.ModelChoiceField(
         label='Category', required=True, queryset=OfferCategory.objects.all())
+    contact_person = forms.CharField(max_length=50)
+    contact_email = forms.EmailField(required=False)
+    contact_phone = forms.CharField(max_length=50)
     location = forms.CharField(max_length=50)
     active_for = forms.IntegerField(
         label='Active for', required=True, min_value=1, max_value=14)

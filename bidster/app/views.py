@@ -26,7 +26,7 @@ class IndexView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = OfferCategory.objects.all()
-        context['last_five_offers'] = get_offers(limit=5)
+        context['latest_offers'] = get_offers(limit=3)
         return context
 
 
@@ -35,6 +35,7 @@ class SearchResultsView(ListView):
 
     def get(self, *args, **kwargs):
         search_form = SearchForm(self.request.GET)
+
         if search_form.is_valid():
             category_id = search_form.cleaned_data['category'].id if search_form.cleaned_data['category'] else None
             offers = get_offers(
@@ -44,19 +45,15 @@ class SearchResultsView(ListView):
                 price_from=search_form.cleaned_data['price_from'],
                 price_to=search_form.cleaned_data['price_to'],
             )
-
-            context = {
-                'search_form': search_form,
-                'offers': offers,
-            }
-
-            return render(self.request, self.template_name, context)
         else:
-            context = {
-                'search_form': search_form,
-            }
+            offers - None
+        
+        context = {
+            'search_form': search_form,
+            'offers': offers,
+        }
 
-            return render(self.request, self.template_name, context)
+        return render(self.request, self.template_name, context)
 
 
 @method_decorator(transaction.atomic, name='post')
@@ -64,10 +61,15 @@ class CreateOfferView(LoginRequiredMixin, FormView):
     form_class = OfferForm
     template_name = 'app/create_offer.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(CreateOfferView, self).get_context_data(**kwargs)
-        context["offer_form"] = context["form"]
-        return context
+    def get_initial(self):
+        initial = super().get_initial()
+
+        initial['contact_person'] = self.request.user.username
+        initial['contact_email'] = self.request.user.email
+        initial['contact_phone'] = self.request.user.profile.phone_number
+        initial['location'] = self.request.user.profile.location
+
+        return initial
 
     def post(self, req, *args, **kwargs):
         offer_form = OfferForm(req.POST, req.FILES)
@@ -83,7 +85,10 @@ class CreateOfferView(LoginRequiredMixin, FormView):
                 location=offer_form.cleaned_data['location'],
                 created_by=req.user,
                 expires_on=now() +
-                timedelta(days=offer_form.cleaned_data['active_for'])
+                timedelta(days=offer_form.cleaned_data['active_for']),
+                contact_person=offer_form.cleaned_data['contact_person'],
+                contact_email=offer_form.cleaned_data['contact_email'],
+                contact_phone=offer_form.cleaned_data['contact_phone'],
             )
             offer.save()
 
@@ -130,7 +135,7 @@ class OfferDetailsView(FormView):
 
         if user_is_creator:
             offer_bids = get_offer_bids(offer_id=offer_id)
-        
+
         offer.view_counts += 1
         offer.save()
 

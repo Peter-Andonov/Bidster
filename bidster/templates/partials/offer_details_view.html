@@ -63,15 +63,15 @@
         <div class="list-ver">
             <div class="list-hor">
                 <img class="card__icon" height="20px" src="{% static 'icons/user-solid.svg' %}" />
-                <div class="card__info_text">{{ offer.created_by.username }}</div>
+                <div class="card__info_text">{{ offer.contact_person }}</div>
             </div>
             <div class="list-hor">
                 <img class="card__icon" height="20px" src="{% static 'icons/envelope-regular.svg' %}" />
-                <div class="card__info_text">{{ offer.created_by.email }}</div>
+                <div class="card__info_text">{{ offer.contact_email }}</div>
             </div>
             <div class="list-hor">
                 <img class="card__icon" height="20px" src="{% static 'icons/mobile-alt-solid.svg' %}" />
-                <div class="card__info_text">{{ offer.created_by.profile.phone_number }}</div>
+                <div class="card__info_text">{{ offer.contact_phone }}</div>
             </div>
         </div>
     </div>
