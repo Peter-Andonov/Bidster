@@ -2,13 +2,14 @@ from django.db import transaction
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.utils.db_requests import get_user_data
 from bidster_auth.models import Profile
-from bidster_auth.forms import LoginForm, RegistrationForm, ProfileForm
+from bidster_auth.forms import LoginForm, RegistrationForm, UserForm, ProfileForm
 
 
 def logout_user(req):
@@ -80,35 +81,42 @@ class LoginUserView(FormView):
         return context
 
 
-#add permission decorator so that a user can edit only his profile
-class ProfileView(LoginRequiredMixin, FormView):
-    form_class = ProfileForm
+class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'bidster_auth/profile.html'
 
     def post(self, req, *args, **kwargs):
-        profile_form = ProfileForm(req.POST, req.FILES)
+        user_data = get_user_data(self.request.user.id)
+        user_form = UserForm(req.POST, instance=user_data)
+        profile_form = ProfileForm(
+            req.POST, req.FILES, instance=user_data.profile)
 
-        if profile_form.is_valid():
-            #update user
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
 
             return redirect('user profile')
         else:
-            return super().form_invalid(profile_form)
+            context = {
+                'user_form': user_form,
+                'profile_form': profile_form,
+            }
+
+            return render(req, self.template_name, context)
 
     def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
-        context["profile_form"] = context["form"]
-        context["current_pic_url"] = self.current_pic_url
-        return context
-
-    def get_initial(self):
-        initial = super().get_initial()
+        context = super().get_context_data(**kwargs)
         user_data = get_user_data(self.request.user.id)
-        self.current_pic_url = user_data.profile.profile_pic.url if user_data.profile.profile_pic else None
-        initial['first_name'] = user_data.first_name
-        initial['last_name'] = user_data.last_name
-        initial['email'] = user_data.email
-        initial['phone_number'] = user_data.profile.phone_number
-        initial['location'] = user_data.profile.location
+        current_pic_url = user_data.profile.profile_pic.url if user_data.profile.profile_pic else None
 
-        return initial
+        context["user_form"] = UserForm(initial={
+            'first_name': user_data.first_name,
+            'last_name': user_data.last_name,
+            'email': user_data.email,
+        })
+        context["profile_form"] = ProfileForm(initial={
+            'profile_pic': user_data.profile.profile_pic,
+            'phone_number': user_data.profile.phone_number,
+            'location': user_data.profile.location,
+        })
+        context["current_pic_url"] = current_pic_url
+        return context
