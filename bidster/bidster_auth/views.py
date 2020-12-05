@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,10 +13,12 @@ from bidster_auth.models import Profile
 from bidster_auth.forms import LoginForm, RegistrationForm, UserForm, ProfileForm
 
 
-def logout_user(req):
-    logout(req)
+class LogoutUserView(RedirectView):
+    pattern_name = 'index'
 
-    return redirect('index')
+    def get_redirect_url(self, *args, **kwargs):
+        logout(self.request)
+        return super().get_redirect_url(*args, **kwargs)
 
 
 @method_decorator(transaction.atomic, name='post')
