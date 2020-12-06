@@ -37,7 +37,7 @@ class SearchResultsView(ListView):
     def get(self, *args, **kwargs):
         search_form = SearchForm(self.request.GET)
 
-        expire_offer.delay(10)
+        expire_offer.apply_async((1, 2), countdown=10)
 
         if search_form.is_valid():
             category_id = search_form.cleaned_data['category'].id if search_form.cleaned_data['category'] else None

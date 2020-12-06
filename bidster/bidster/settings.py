@@ -141,7 +141,9 @@ MEDIA_DIR_NAME = 'media'
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_DIR_NAME)
 MEDIA_URL = '/media/'
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+# Celery settings
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
