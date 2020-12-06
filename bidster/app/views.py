@@ -99,8 +99,7 @@ class CreateOfferView(LoginRequiredMixin, FormView):
             for f in req.FILES.getlist('images'):
                 save_to_galery(image_gallery, f)
 
-            expire_in = offer_form.cleaned_data['active_for'] * 24 * 60 * 60
-            transaction.on_commit(lambda: expire_offer.apply_async((offer.id,), countdown=expire_in))
+            transaction.on_commit(lambda: expire_offer.apply_async((offer.id,), eta=offer.expires_on))
             
             return redirect('index')
         else:

@@ -8,7 +8,7 @@ class OfferCategoryAdmin(admin.ModelAdmin):
 
 
 class OfferAdmin(admin.ModelAdmin):
-    pass
+    list_display  = ('name', 'is_active', 'created_by', 'published_on', 'expires_on')
 
 
 class ImageGaleryAdmin(admin.ModelAdmin):
