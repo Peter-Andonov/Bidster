@@ -3,10 +3,18 @@
     <div class="details__section align-center">
         <div class="details__galery space-between">
             <img class="arrow__icon" height="40px" src="{% static 'icons/arrow-left-solid.svg' %}" />
+            {% if offer.imagegalery.images %}
             <img class="details__galery_image" src="{{ offer.imagegalery.images.0.image.url }}" alt="">
+            {% else %}
+            <img class="details__galery_image" src="{% static 'images/missing_image.png' %}">
+            {% endif %}
             <img class="arrow__icon" height="40px" src="{% static 'icons/arrow-right-solid.svg' %}" />
         </div>
+        {% if offer.imagegalery.images %}
         <div class="details__galery_image_counter">1/{{ image_count }}</div>
+        {% else %}
+        <div class="details__galery_image_counter">No images available</div>
+        {% endif %}
         <div class="details__galery">
             {% for image in offer.imagegalery.images %}
             <img class="details__galery_image_preview" src="{{ image.image.url }}" alt="">

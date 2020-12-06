@@ -2,6 +2,8 @@
 <div class="card_ver__wrapper">
     {% if offer.imagegalery.images %}
     <img class="card_ver__image" src="{{ offer.imagegalery.images.0.image.url }}">
+    {% else %}
+    <img class="card_ver__image" src="{% static 'images/missing_image.png' %}">
     {% endif %}
     <h4 class="card__title">{{ offer.name }}</h4>
     <div class="spacer"></div>

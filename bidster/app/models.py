@@ -39,6 +39,7 @@ class Offer(models.Model):
     category = models.ForeignKey( OfferCategory, null=True, on_delete=models.SET_NULL)
     location = models.CharField(max_length=50)
     published_on = models.DateTimeField(default=now, editable=False)
+    is_active = models.BooleanField(default=True, editable=False)
     expires_on = models.DateTimeField(editable=False)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     contact_person = models.CharField(max_length=50)

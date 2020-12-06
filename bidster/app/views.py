@@ -37,8 +37,6 @@ class SearchResultsView(ListView):
     def get(self, *args, **kwargs):
         search_form = SearchForm(self.request.GET)
 
-        expire_offer.apply_async((1, 2), countdown=10)
-
         if search_form.is_valid():
             category_id = search_form.cleaned_data['category'].id if search_form.cleaned_data['category'] else None
             offers = get_offers(
@@ -101,6 +99,9 @@ class CreateOfferView(LoginRequiredMixin, FormView):
             for f in req.FILES.getlist('images'):
                 save_to_galery(image_gallery, f)
 
+            expire_in = offer_form.cleaned_data['active_for'] * 24 * 60 * 60
+            transaction.on_commit(lambda: expire_offer.apply_async((offer.id,), countdown=expire_in))
+            
             return redirect('index')
         else:
             return super().form_invalid(offer_form)
