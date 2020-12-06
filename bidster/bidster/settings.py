@@ -142,7 +142,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_DIR_NAME)
 MEDIA_URL = '/media/'
 
 # Celery settings
-
+CELERY_TIMEZONE = 'Europe/Sofia'
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
