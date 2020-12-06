@@ -206,6 +206,13 @@
     color: var(--text-color-primary);
 }
 
+.counter {
+    margin: 10px 0;
+    font-family: var(--text-font-primary);
+    font-size: 22px;
+    color: var(--text-color-active);
+}
+
 .card__icon {
     margin: 10px;
 }

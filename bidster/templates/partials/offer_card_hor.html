@@ -1,5 +1,5 @@
 {% load static %}
-<div class="card_hor__wrapper">
+<div class="card_hor__wrapper has_counter">
     {% if offer.imagegalery.images %}
     <img class="card_hor__image" src="{{ offer.imagegalery.images.0.image.url }}">
     {% else %}
@@ -11,14 +11,17 @@
             <div class="spacer"></div>
             <div class="card__price">{{ offer.current_price }} lv.</div>
         </div>
+        <div class="counter">Loading...</div>
         <div class="spacer"></div>
         <div class="list-hor">
             <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
-            <div class="card__info_text">Added - {{ offer.published_on}}</div>
+            <div class="card__info_text">Added on:</div>
+            <div class="card__info_text">{{ offer.published_on.date }}, {{ offer.published_on.hour }}:{{ offer.published_on.minute }}:{{ offer.published_on.second }}</div>
         </div>
         <div class="list-hor">
             <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
-            <div class="card__info_text">Expires - {{ offer.expires_on}}</div>
+            <div class="card__info_text">Expires on:</div>
+            <div class="card__info_text expiry_date">{{ offer.expires_on.date }}, {{ offer.expires_on.hour }}:{{ offer.expires_on.minute }}:{{ offer.expires_on.second }}</div>
         </div>
         <div class="spacer"></div>
         <div class="list-hor">
