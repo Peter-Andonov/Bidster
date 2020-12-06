@@ -41,7 +41,7 @@ def get_bids_by_user_id(user_id):
     return user_bids
 
 
-def get_offers(text='', category_id=None, created_by=None, condition=None, price_from=None, price_to=None, limit=None):
+def get_offers(text='', category_id=None, created_by=None, condition=None, price_from=None, price_to=None, limit=None, is_active=True):
     q = Q()
 
     if text:
@@ -61,6 +61,8 @@ def get_offers(text='', category_id=None, created_by=None, condition=None, price
 
     if created_by:
         q = q & Q(created_by=created_by)
+
+    q = q & Q(is_active=is_active)
 
     offers = Offer.objects.filter(q)\
         .order_by('-id')\

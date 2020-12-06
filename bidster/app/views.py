@@ -13,6 +13,7 @@ from django.utils.timezone import now
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 
+from app.tasks import expire_offer
 from app.forms import SearchForm, OfferForm, BidForm
 from app.models import ImageGalery, Offer, OfferCategory, Image, Bid
 from app.utils.db_requests import get_offers, get_offer_by_id, get_offer_bids, get_bids_by_user_id
@@ -98,6 +99,8 @@ class CreateOfferView(LoginRequiredMixin, FormView):
             for f in req.FILES.getlist('images'):
                 save_to_galery(image_gallery, f)
 
+            transaction.on_commit(lambda: expire_offer.apply_async((offer.id,), eta=offer.expires_on))
+            
             return redirect('index')
         else:
             return super().form_invalid(offer_form)

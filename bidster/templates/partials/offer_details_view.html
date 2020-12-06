@@ -1,12 +1,20 @@
 {% load static %}
-<div class="list-ver">
+<div class="list-ver has_counter">
     <div class="details__section align-center">
         <div class="details__galery space-between">
             <img class="arrow__icon" height="40px" src="{% static 'icons/arrow-left-solid.svg' %}" />
+            {% if offer.imagegalery.images %}
             <img class="details__galery_image" src="{{ offer.imagegalery.images.0.image.url }}" alt="">
+            {% else %}
+            <img class="details__galery_image" src="{% static 'images/missing_image.png' %}">
+            {% endif %}
             <img class="arrow__icon" height="40px" src="{% static 'icons/arrow-right-solid.svg' %}" />
         </div>
+        {% if offer.imagegalery.images %}
         <div class="details__galery_image_counter">1/{{ image_count }}</div>
+        {% else %}
+        <div class="details__galery_image_counter">No images available</div>
+        {% endif %}
         <div class="details__galery">
             {% for image in offer.imagegalery.images %}
             <img class="details__galery_image_preview" src="{{ image.image.url }}" alt="">
@@ -15,6 +23,7 @@
     </div>
     <div class='details__section'>
         <h2 class="details__section_title">{{ offer.name }}</h2>
+        <div class="counter">Loading...</div>
         <strong class="details__section_title">Current price: {{ offer.current_price }} lv.</strong>
         <div class="list-hor">
             <div class="list-ver">
@@ -24,11 +33,13 @@
                 </div>
                 <div class="list-hor">
                     <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
-                    <div class="card__info_text">Added: {{ offer.published_on }}</div>
+                    <div class="card__info_text">Added on:</div>
+                    <div class="card__info_text">{{ offer.published_on|date:"d M Y" }}, {{ offer.published_on|time:"H:i:s" }}</div>
                 </div>
                 <div class="list-hor">
                     <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
-                    <div class="card__info_text">Expires: {{ offer.expires_on }}</div>
+                    <div class="card__info_text">Expires on:</div>
+                    <div class="card__info_text expiry_date">{{ offer.expires_on|date:"d M Y" }}, {{ offer.expires_on|time:"H:i:s" }}</div>
                 </div>
             </div>
             <div class="list-ver">

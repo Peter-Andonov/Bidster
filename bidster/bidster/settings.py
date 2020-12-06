@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_celery_results',
+
     'bidster_auth',
     'app',
 ]
@@ -114,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Sofia'
 
 USE_I18N = True
 
@@ -137,3 +140,10 @@ STATICFILES_DIRS = (
 MEDIA_DIR_NAME = 'media'
 MEDIA_ROOT = os.path.join(BASE_DIR, MEDIA_DIR_NAME)
 MEDIA_URL = '/media/'
+
+# Celery settings
+CELERY_TIMEZONE = 'Europe/Sofia'
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'

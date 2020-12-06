@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block page_content %}
 <div class="list-ver">
@@ -34,3 +35,7 @@
     </div>
 </div>
 {% endblock page_content %}
+
+{% block javascript %}
+<script type="module" src="{% static 'js/countdown_timer.js' %}"></script>
+{% endblock javascript %}

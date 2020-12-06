@@ -3,6 +3,8 @@
     --text-color-default: #FFFFFF;
     --text-color-primary: #000000;
     --text-color-secondary: #616968;
+    --text-color-active: #21ab41;
+    --text-color-expired: #e63046;
     
     --bg-color-default: #FFFFFF;
     --bg-color-body: #f3f4f6;
