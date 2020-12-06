@@ -16,12 +16,12 @@
         <div class="list-hor">
             <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
             <div class="card__info_text">Added on:</div>
-            <div class="card__info_text">{{ offer.published_on.date }}, {{ offer.published_on.hour }}:{{ offer.published_on.minute }}:{{ offer.published_on.second }}</div>
+            <div class="card__info_text">{{ offer.published_on|date:"d M Y" }}, {{ offer.published_on|time:"H:i:s" }}</div>
         </div>
         <div class="list-hor">
             <img class="card__icon" height="20px" src="{% static 'icons/calendar.svg' %}" />
             <div class="card__info_text">Expires on:</div>
-            <div class="card__info_text expiry_date">{{ offer.expires_on.date }}, {{ offer.expires_on.hour }}:{{ offer.expires_on.minute }}:{{ offer.expires_on.second }}</div>
+            <div class="card__info_text expiry_date">{{ offer.expires_on|date:"d M Y" }}, {{ offer.expires_on|time:"H:i:s" }}</div>
         </div>
         <div class="spacer"></div>
         <div class="list-hor">
