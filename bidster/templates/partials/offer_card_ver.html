@@ -26,6 +26,6 @@
     <div class="list-hor">
         <div class="card__price">{{ offer.current_price }} lv.</div>
         <div class="spacer"></div>
-        <a href="{% url 'details page' offer_id=offer.id %}" class="card__btn">View Details</a>
+        <a href="{% url 'details page' offer_id=offer.id slug=offer.slug %}" class="card__btn">View Details</a>
     </div>
 </div>

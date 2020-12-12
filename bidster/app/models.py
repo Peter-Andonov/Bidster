@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.timezone import now
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 
 
 class OfferCategory(models.Model):
@@ -43,6 +44,7 @@ class Offer(models.Model):
         (USED, 'Used'),
     )
 
+    slug = models.SlugField(editable=False)
     name = models.CharField(max_length=200)
     description = models.TextField()
     condition = models.CharField(
@@ -64,6 +66,10 @@ class Offer(models.Model):
     contact_email = models.EmailField(blank=True)
     contact_phone = models.CharField(max_length=50)
     view_counts = models.PositiveIntegerField(default=0, editable=False)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

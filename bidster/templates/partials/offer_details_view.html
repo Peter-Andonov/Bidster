@@ -93,7 +93,7 @@
     </div>
     <div class="details__section">
         <h4 class="details__section_title">Bid on this offer</h4>
-        <form class="list-ver" action="{% url 'details page' offer_id=offer.id %}" method="POST">
+        <form class="list-ver" action="{% url 'details page' offer_id=offer.id slug=offer.slug %}" method="POST">
             {% csrf_token %}
             <label class="details__bid_form_label"
                 for="{{ bid_form.amount.auto_id }}">{{ bid_form.amount.label }}</label>
