@@ -1,11 +1,12 @@
 from django.db import transaction
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView
-from django.views.generic.base import RedirectView
 from django.views.generic.edit import CreateView, FormView
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.utils.db_requests import get_user_data
@@ -13,12 +14,8 @@ from bidster_auth.models import Profile
 from bidster_auth.forms import LoginForm, RegistrationForm, UserForm, ProfileForm
 
 
-class LogoutUserView(RedirectView):
-    pattern_name = 'index'
-
-    def get_redirect_url(self, *args, **kwargs):
-        logout(self.request)
-        return super().get_redirect_url(*args, **kwargs)
+class LogoutUserView(LogoutView):
+    next_page = reverse_lazy('index')
 
 
 @method_decorator(transaction.atomic, name='post')
