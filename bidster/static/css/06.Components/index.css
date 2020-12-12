@@ -263,6 +263,7 @@
     line-height: 1.5;
 }
 
+/* Error stuff */
 .errors__container {
     padding: 5px;
     display: flex;
@@ -290,4 +291,29 @@
 
 .form__image_input:hover {
     cursor: pointer;
+}
+
+/* Pagination stuff */
+.pagination {
+    display: flex;
+    justify-content: center;
+    width: 300px;
+    padding: 10px;
+}
+
+.page-current {
+    margin: 0 auto;
+    font-family: var(--text-font-primary);
+    font-size: 22px;
+    color: var(--text-color-primary);
+}
+
+.pagination-nav {
+    font-family: var(--text-font-primary);
+    font-size: 22px;
+    color: var(--text-color-primary);
+}
+
+.pagination-nav-disabled {
+    opacity: 0.5;
 }
