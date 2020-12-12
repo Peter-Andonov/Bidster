@@ -75,6 +75,9 @@ class BidForm(forms.ModelForm):
 
         if not offer:
             raise ValidationError('Offer not found')
+
+        if not offer.is_active:
+            raise ValidationError('Offer has expired')
         
         if offer_amount <= offer.current_price:
             raise ValidationError('Bid amount must be greater than the current price')

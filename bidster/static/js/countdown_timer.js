@@ -20,8 +20,9 @@ elements.forEach((e) =>{
         counterEl.innerText = days + "d " + hours + "h " + minutes + "m " + seconds + "s Remaining";
 
         if (distance < 0) {
-            clearInterval(x);
             counterEl.innerText = "EXPIRED";
+            counterEl.classList.add('expired');
+            clearInterval(x);
         }
     }, 1000);
 });

@@ -213,6 +213,10 @@
     color: var(--text-color-active);
 }
 
+.expired {
+    color: red;
+}
+
 .card__icon {
     margin: 10px;
 }
