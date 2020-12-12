@@ -36,7 +36,7 @@ def get_offer_bids(offer_id):
 def get_bids_by_user_id(user_id):
     user_bids = Bid.objects.filter(created_by=user_id)\
         .prefetch_related('for_offer')\
-        .order_by('-amount')
+        .order_by('-created_on')
 
     return user_bids
 

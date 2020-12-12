@@ -4,7 +4,26 @@
 {% block page_content %}
 <div class="list-ver">
     {% for bid in my_bids %}
-        {% include 'partials/bid_card.html' with bid=bid %}
+    {% include 'partials/bid_card.html' with bid=bid %}
+    {% empty %}
+    <h2 class="mp_title">You haven`t made any bids yet!</h2>
     {% endfor %}
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a class="pagination-nav" href="{% url 'my bids page' %}?page={{ page_obj.previous_page_number }}">Prev</a>
+        {% else %}
+        <a class="pagination-nav pagination-nav-disabled">Prev</a>
+        {% endif %}
+        <span class="page-current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+        <a class="pagination-nav" href="{% url 'my bids page' %}?page={{ page_obj.next_page_number }}">Next</a>
+        {% else %}
+        <a class="pagination-nav pagination-nav-disabled">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock page_content %}

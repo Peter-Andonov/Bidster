@@ -166,11 +166,5 @@ class MyBidsView(LoginRequiredMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        req = self.request
-        self.bids = get_bids_by_user_id(user_id=req.user.id)
-        return self.bids
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(MyBidsView, self).get_context_data(*args, **kwargs)
-        context['my_bids'] = self.bids
-        return context
+        bids = get_bids_by_user_id(user_id=self.request.user.id)
+        return bids
