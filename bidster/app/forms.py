@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 
 from app.models import Offer, OfferCategory, Bid
+from common.form_mixins import DefaultFormMixin
 
 
 class SearchForm(forms.Form):
@@ -92,13 +93,10 @@ class BidForm(forms.ModelForm):
         }
 
 
-class OfferForm(forms.Form):
+class OfferForm(DefaultFormMixin, forms.Form):
     def __init__(self, *args, **kwargs):
-        super(OfferForm, self).__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            if 'class' not in field.widget.attrs:
-                field.widget.attrs['class'] = ''
-            field.widget.attrs['class'] += ' form__input '
+        super().__init__(*args, **kwargs)
+        self.__init_fields__()
 
     name = forms.CharField(label='Name', required=True, max_length=200)
     images = forms.ImageField(
