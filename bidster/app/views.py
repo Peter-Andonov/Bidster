@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from django.db import transaction
+from django.shortcuts import redirect
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.utils.decorators import method_decorator
-from django.shortcuts import render
 
 from app.tasks import expire_offer
 from app.forms import SearchForm, OfferForm, BidForm
@@ -90,6 +90,9 @@ class CreateOfferView(LoginRequiredMixin, FormView):
         offer_form = OfferForm(req.POST, req.FILES)
 
         if offer_form.is_valid():
+            image_galery = ImageGalery()
+            image_galery.save()
+
             offer = Offer(
                 name=offer_form.cleaned_data['name'],
                 description=offer_form.cleaned_data['description'],
@@ -98,6 +101,7 @@ class CreateOfferView(LoginRequiredMixin, FormView):
                 current_price=offer_form.cleaned_data['starting_price'],
                 category=offer_form.cleaned_data['category'],
                 location=offer_form.cleaned_data['location'],
+                image_galery=image_galery,
                 created_by=req.user,
                 expires_on=now() +
                 timedelta(days=offer_form.cleaned_data['active_for']),
@@ -107,11 +111,8 @@ class CreateOfferView(LoginRequiredMixin, FormView):
             )
             offer.save()
 
-            image_gallery = ImageGalery(offer=offer)
-            image_gallery.save()
-
             for f in req.FILES.getlist('images'):
-                save_to_galery(image_gallery, f)
+                save_to_galery(image_galery, f)
 
             transaction.on_commit(lambda: expire_offer.apply_async(
                 (offer.id,), eta=offer.expires_on))
@@ -159,7 +160,7 @@ class OfferDetailsView(FormView):
 
         context["user_is_creator"] = user_is_creator
         context["offer"] = offer
-        context["image_count"] = len(offer.imagegalery.images)
+        context["image_count"] = len(offer.image_galery.images)
         context["offer_bids"] = offer_bids
         context["bid_form"] = context["form"]
         return context

@@ -1,7 +1,8 @@
 {% load static %}
+
 <div class="card_hor__wrapper has_counter">
-    {% if offer.imagegalery.images %}
-    <img class="card_hor__image" src="{{ offer.imagegalery.images.0.image.url }}">
+    {% if offer.image_galery.images %}
+    <img class="card_hor__image" src="{{ offer.image_galery.images.0.image.url }}">
     {% else %}
     <img class="card_hor__image" src="{% static 'images/missing_image.png' %}">
     {% endif %}

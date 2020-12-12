@@ -7,7 +7,7 @@
     {% for offer in offers %}
     {% include 'partials/offer_card_hor.html' with offer=offer %}
     {% empty %}
-    <h2 class="mp_title">No matching offers were found</h2>
+    <h2 class="mp_title">No offers have been added yet!</h2>
     {% endfor %}
     {% if is_paginated %}
     <div class="pagination">

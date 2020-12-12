@@ -1,10 +1,9 @@
 {% load static %}
-{% load l10n %}
 
 <div class="card_ver__wrapper has_counter">
     <div class="counter">Loading...</div>
-    {% if offer.imagegalery.images %}
-    <img class="card_ver__image" src="{{ offer.imagegalery.images.0.image.url }}">
+    {% if offer.image_galery.images %}
+    <img class="card_ver__image" src="{{ offer.image_galery.images.0.image.url }}">
     {% else %}
     <img class="card_ver__image" src="{% static 'images/missing_image.png' %}">
     {% endif %}

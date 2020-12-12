@@ -9,7 +9,7 @@ def get_offer_by_id(offer_id):
     offer = Offer.objects\
         .prefetch_related(
             Prefetch(
-                'imagegalery__image_set',
+                'image_galery__image_set',
                 queryset=Image.objects.all(), to_attr='images'
             ))\
         .get(pk=offer_id)
@@ -68,7 +68,7 @@ def get_offers(text='', category_id=None, created_by=None, condition=None, price
         .order_by('-id')\
         .prefetch_related(
         Prefetch(
-            'imagegalery__image_set',
+            'image_galery__image_set',
             queryset=Image.objects.all(), to_attr='images'
         ))[:limit]
 

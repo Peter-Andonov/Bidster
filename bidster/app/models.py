@@ -9,10 +9,26 @@ from django.contrib.auth.models import User
 class OfferCategory(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to=join(settings.MEDIA_ROOT, 'categories'))
+    image = models.ImageField(upload_to=join(
+        settings.MEDIA_ROOT, 'categories'))
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name_plural = "Offer categories"
+
+
+class ImageGalery(models.Model):
+
+    class Meta:
+        verbose_name_plural = "Image galeries"
+
+
+class Image(models.Model):
+    galery = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
+    image = models.ImageField()
+    default = models.BooleanField(default=False)
 
 
 class Offer(models.Model):
@@ -36,7 +52,9 @@ class Offer(models.Model):
     )
     starting_price = models.DecimalField(max_digits=19, decimal_places=2)
     current_price = models.DecimalField(max_digits=19, decimal_places=2)
-    category = models.ForeignKey( OfferCategory, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(
+        OfferCategory, null=True, on_delete=models.SET_NULL)
+    image_galery = models.OneToOneField(ImageGalery, on_delete=models.CASCADE)
     location = models.CharField(max_length=50)
     published_on = models.DateTimeField(default=now, editable=False)
     is_active = models.BooleanField(default=True, editable=False)
@@ -49,16 +67,6 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class ImageGalery(models.Model):
-    offer = models.OneToOneField(Offer, on_delete=models.CASCADE)
-
-
-class Image(models.Model):
-    galery = models.ForeignKey(ImageGalery, on_delete=models.CASCADE)
-    image = models.ImageField()
-    default = models.BooleanField(default=False)
 
 
 class Bid(models.Model):
