@@ -1,12 +1,12 @@
 {% load static %}
-<div class="header">
+<header class="header">
     <nav class="nav">
         <ul class="nav list-hor">
             <li class="nav__nav_item">
                 <a href="{% url 'index' %}">Home</a>
             </li>
             <li class="nav__nav_item">
-                <a href="{% url 'search results' %}">Offers</a>
+                <a href="{% url 'browse page' %}">Offers</a>
             </li>
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
@@ -23,9 +23,9 @@
             {% if user.is_authenticated %}
             <li class="nav__nav_item">
                 {% if user.profile.profile_pic %}
-                    <img src="{{ user.profile.profile_pic.url }}"/>
+                <img src="{{ user.profile.profile_pic.url }}" />
                 {% else %}
-                    <img src="{% static 'images/avatar.jpg' %}"/>
+                <img src="{% static 'images/avatar.jpg' %}" />
                 {% endif %}
                 <a href="{% url 'user profile' %}">{{ user.username }}</a>
             </li>
@@ -42,4 +42,4 @@
             {% endif %}
         </ul>
     </nav>
-</div>
+</header>

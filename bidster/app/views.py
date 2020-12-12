@@ -1,17 +1,14 @@
 from datetime import timedelta
 
 from django.db import transaction
-from django.db.models import Prefetch
-from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.utils.decorators import method_decorator
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 from app.tasks import expire_offer
 from app.forms import SearchForm, OfferForm, BidForm
@@ -31,6 +28,21 @@ class IndexView(FormView):
         return context
 
 
+class BrowseView(ListView):
+    context_object_name = 'offers'
+    template_name = 'app/browse.html'
+    paginate_by = 5
+
+    def get_queryset(self, *args, **kwargs):
+        offers = get_offers()
+        return offers
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['search_form'] = SearchForm()
+        return context
+
+
 class SearchResultsView(ListView):
     context_object_name = 'offers'
     template_name = 'app/search_results.html'
@@ -40,7 +52,8 @@ class SearchResultsView(ListView):
         self.search_form = SearchForm(self.request.GET)
         offers = None
         if self.search_form.is_valid():
-            category_id = self.search_form.cleaned_data['category'].id if self.search_form.cleaned_data['category'] else None
+            category_id = self.search_form.cleaned_data[
+                'category'].id if self.search_form.cleaned_data['category'] else None
             offers = get_offers(
                 text=self.search_form.cleaned_data['text'],
                 category_id=category_id,
@@ -48,7 +61,7 @@ class SearchResultsView(ListView):
                 price_from=self.search_form.cleaned_data['price_from'],
                 price_to=self.search_form.cleaned_data['price_to'],
             )
-        
+
         return offers
 
     def get_context_data(self, *args, **kwargs):
@@ -100,8 +113,9 @@ class CreateOfferView(LoginRequiredMixin, FormView):
             for f in req.FILES.getlist('images'):
                 save_to_galery(image_gallery, f)
 
-            transaction.on_commit(lambda: expire_offer.apply_async((offer.id,), eta=offer.expires_on))
-            
+            transaction.on_commit(lambda: expire_offer.apply_async(
+                (offer.id,), eta=offer.expires_on))
+
             return redirect('index')
         else:
             return super().form_invalid(offer_form)
