@@ -6,9 +6,26 @@
     {% include 'partials/search.html' with search_form=search_form %}
     {% for offer in offers %}
     {% include 'partials/offer_card_hor.html' with offer=offer %}
-    {% empty%}
+    {% empty %}
     <h2 class="mp_title">No matching offers were found</h2>
     {% endfor %}
+    {% if is_paginated %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a class="pagination-nav" href="{{ pagination_path }}&page={{ page_obj.previous_page_number }}">Prev</a>
+        {% else %}
+        <a class="pagination-nav pagination-nav-disabled">Prev</a>
+        {% endif %}
+        <span class="page-current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+        <a class="pagination-nav" href="{{ pagination_path }}&page={{ page_obj.next_page_number }}">Next</a>
+        {% else %}
+        <a class="pagination-nav pagination-nav-disabled">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock page_content %}
 

@@ -24,37 +24,38 @@ class IndexView(FormView):
     form_class = SearchForm
     template_name = 'app/index.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
         context['categories'] = OfferCategory.objects.all()
         context['latest_offers'] = get_offers(limit=3)
         return context
 
 
 class SearchResultsView(ListView):
+    context_object_name = 'offers'
     template_name = 'app/search_results.html'
+    paginate_by = 5
 
-    def get(self, *args, **kwargs):
-        search_form = SearchForm(self.request.GET)
-
-        if search_form.is_valid():
-            category_id = search_form.cleaned_data['category'].id if search_form.cleaned_data['category'] else None
+    def get_queryset(self, *args, **kwargs):
+        self.search_form = SearchForm(self.request.GET)
+        offers = None
+        if self.search_form.is_valid():
+            category_id = self.search_form.cleaned_data['category'].id if self.search_form.cleaned_data['category'] else None
             offers = get_offers(
-                text=search_form.cleaned_data['text'],
+                text=self.search_form.cleaned_data['text'],
                 category_id=category_id,
-                condition=search_form.cleaned_data['condition'],
-                price_from=search_form.cleaned_data['price_from'],
-                price_to=search_form.cleaned_data['price_to'],
+                condition=self.search_form.cleaned_data['condition'],
+                price_from=self.search_form.cleaned_data['price_from'],
+                price_to=self.search_form.cleaned_data['price_to'],
             )
-        else:
-            offers - None
         
-        context = {
-            'search_form': search_form,
-            'offers': offers,
-        }
+        return offers
 
-        return render(self.request, self.template_name, context)
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['search_form'] = self.search_form
+        context['pagination_path'] = self.request.get_full_path()
+        return context
 
 
 @method_decorator(transaction.atomic, name='post')
