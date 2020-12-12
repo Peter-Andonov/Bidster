@@ -24,7 +24,7 @@ class IndexView(FormView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['categories'] = OfferCategory.objects.all()
-        context['latest_offers'] = get_offers(limit=3)
+        context['latest_offers'] = get_offers(limit=3, active=True)
         return context
 
 
@@ -34,7 +34,7 @@ class BrowseView(ListView):
     paginate_by = 5
 
     def get_queryset(self, *args, **kwargs):
-        offers = get_offers()
+        offers = get_offers(active=True)
         return offers
 
     def get_context_data(self, *args, **kwargs):
@@ -60,6 +60,7 @@ class SearchResultsView(ListView):
                 condition=self.search_form.cleaned_data['condition'],
                 price_from=self.search_form.cleaned_data['price_from'],
                 price_to=self.search_form.cleaned_data['price_to'],
+                active=True,
             )
 
         return offers
