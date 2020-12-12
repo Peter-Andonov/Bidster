@@ -18,6 +18,10 @@
     padding: 0 10px;
 }
 
+.nav__nav_item:hover {
+    opacity: 0.6;
+}
+
 .spacer {
     flex: 1;
 }
@@ -34,6 +38,29 @@
     margin-right: 10px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+/* Footer stuff */
+
+.footer {
+    background-color: var(--bg-color-header);
+    border-top: 10px solid;
+    border-color: var(--bg-color-footer-secondary);
+    height: 100px;
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-text {
+    font-family: var(--text-font-primary);
+    font-size: 26px;
+    color: var(--text-color-default);
+}
+
+.content-wrapper {
+    min-height: calc(100vh - 250px);
 }
 
 /* Search stuff */
@@ -215,7 +242,7 @@
 }
 
 .expired {
-    color: red;
+    color: var(--text-color-expired);
 }
 
 .card__icon {
@@ -265,6 +292,17 @@
     font-size: 20px;
     font-weight: 100;
     color: var(--text-color-primary);
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.site_description a {
+    font-family: var(--text-font-primary);
+    font-size: 20px;
+    font-weight: 100;
+    color: var(--bg-color-footer-secondary);
     line-height: 1.5;
 }
 

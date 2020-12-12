@@ -14,7 +14,10 @@
 </head>
 <body>
     {% include 'partials/header.html' %}
-    {% block page_content %}{% endblock page_content %}
+    <div class="content-wrapper">
+        {% block page_content %}{% endblock page_content %}
+    </div>
+    {% include 'partials/footer.html' %}
 </body>
     {% block javascript %}{% endblock javascript%}
 </html>
